@@ -8,6 +8,7 @@
 </script>
 
 <script>
+  import dayjs from 'dayjs'
 	export let posts;
 </script>
 
@@ -20,7 +21,8 @@
 		<h2><a rel='prefetch' href='articles/{post.slug}'>{post.title}</a></h2>
     <p style='text-muted'>Published
       {#if post.date}
-        on {post.date} 
+        <!--on {formatDate(post.date, '#{l}, #{F} #{j}, #{Y}')}-->
+        on {dayjs(post.date).format('ddd, MMM D, YYYY')} 
       {/if}
       {#if post.categories && post.categories.length}
         in {#each post.categories as cat, j}

@@ -38,7 +38,7 @@
   values.title = article.title;
   const today = new Date();
   let start = new Date();
-  let dateFormat = '#{M} #{n}, #{Y}';
+  let dateFormat = '#{m}-#{d}-#{Y}';
   let formattedSelected
   let selected
   let selectedDate

@@ -49,7 +49,7 @@
 <NotificationDisplay bind:this={n} />
 <h3>{email}</h3>
 <form>
-  <select bind:value={updated.scope}>
+  Permissions: <select bind:value={updated.scope}>
     <option value='admin'>admin</option>
     <option value='user'>user</option>
   </select>
