@@ -22,7 +22,6 @@
     <p style='text-muted'>Published
       {#if post.date}
         <!--on {formatDate(post.date, '#{l}, #{F} #{j}, #{Y}')}-->
-        on {dayjs(post.date).format('ddd, MMM D, YYYY')} 
       {/if}
       {#if post.categories && post.categories.length}
         in {#each post.categories as cat, j}
