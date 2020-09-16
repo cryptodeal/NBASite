@@ -117,7 +117,7 @@ export function deleteArticle(id){
 }
 
 export function listArticles(){
-  return Post.find({}).populate('categories author').exec()
+  return Post.paginate({}, {populate: 'categories author', sort: '-publishedDate', limit: 2})
 }
 
 export function listContributors(){

@@ -2,9 +2,9 @@
 import { listArticles } from '../../mongoose'
 
 export function get(req, res) {
-  listArticles().then(articles => {
-    console.log(articles)
-    let content = JSON.stringify(articles.map(article => ({ 
+  listArticles().then(response => {
+    console.log(response)
+    let content = JSON.stringify(response.docs.map(article => ({ 
 			title: article.title,
       slug: article.slug,
       author: article.author,
