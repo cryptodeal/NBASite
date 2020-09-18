@@ -120,6 +120,10 @@ export function listArticles(){
   return Post.paginate({}, {populate: 'categories author', sort: '-publishedDate', limit: 2})
 }
 
+export function listArticles2(page){
+  return Post.paginate({}, {page: page, populate: 'categories author', sort: '-publishedDate', limit: 4})
+}
+
 export function listContributors(){
   return User.find().select('email').lean().exec();
 }

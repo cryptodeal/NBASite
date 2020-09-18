@@ -56,6 +56,8 @@
     "svelte-calendar": "^1.5.0",
     "svelte-grid-responsive": "^0.3.0",
     "svelte-image": "^0.2.7",
+    "svelte-infinite-scroll": "^1.4.1",
+    "svelte-paginate": "0.0.1",
     "svelte-select": "^3.11.1",
     "svelte-simple-modal": "^0.6.0"
   }
