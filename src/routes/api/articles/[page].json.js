@@ -1,8 +1,9 @@
 //import posts from './_posts.js';
-import { listArticles } from '../../mongoose'
+import { listArticles2 } from './../../../mongoose'
 
 export function get(req, res) {
-  listArticles().then(response => {
+  const { page } = req.params;
+  listArticles2(page).then(response => {
     console.log(response)
     let content = JSON.stringify(response.docs.map(article => ({ 
 			title: article.title,
@@ -12,6 +13,7 @@ export function get(req, res) {
       brief: article.content.brief,
       categories: article.categories
     })));
+    console.log(content)
     res.writeHead(200, {
 			'Content-Type': 'application/json'
 		});

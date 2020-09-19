@@ -14,6 +14,7 @@
 </script>
 
 <script>
+  import dayjs from 'dayjs'
 	export let post;
 </script>
 
@@ -58,9 +59,30 @@
 </svelte:head>
 
 <h1>{post.title}</h1>
-{#if post.author.length}
-  <h3>By {post.author[0].email}</h3>
-{/if}
+  <p style='text-muted'>Published
+    {#if post.publishedDate}
+      on {dayjs(post.publishedDate).format('MMM. D, YYYY')} 
+    {/if}
+    {#if post.categories && post.categories.length}
+      in {#each post.categories as cat, j}
+        {#if j == 0}
+          <a href='/articles/{cat.key}'>{cat.name}</a>
+        {:else}
+          , <a href='/articles/{cat.key}'>{cat.name}</a>
+        {/if}
+      {/each}
+    {/if}
+    {#if post.author.length}
+      by {#each post.author as aut, i}
+        {#if i == 0}
+          <a href='/contributors/{aut.userkey}'>{aut.email}</a>
+        {:else}
+          , <a href='/contributors/{aut.userkey}'>{aut.email}</a>
+
+        {/if}
+      {/each}
+    {/if}
+  </p>
 
 <div class='content'>
 	{#if !post.content}

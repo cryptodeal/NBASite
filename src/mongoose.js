@@ -117,7 +117,11 @@ export function deleteArticle(id){
 }
 
 export function listArticles(){
-  return Post.find({}).exec()
+  return Post.paginate({}, {populate: 'categories author', sort: '-publishedDate', limit: 2})
+}
+
+export function listArticles2(page){
+  return Post.paginate({}, {page: page, populate: 'categories author', sort: '-publishedDate', limit: 4})
 }
 
 export function listContributors(){
@@ -125,7 +129,7 @@ export function listContributors(){
 }
 
 export function findArticle(slug){
-  return Post.find({slug: slug}).populate('author').populate('categories').exec();
+  return Post.find({slug: slug}).populate('author categories').exec();
 }
 
 export function listCategories(){
