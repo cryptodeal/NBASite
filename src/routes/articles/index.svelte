@@ -34,6 +34,7 @@
     flex-direction: column;
     border-radius: 2px;
     width: 100%;
+    max-width: 100%;
     max-height: 400px;
 		background-color: white;
     overflow-x: scroll;
