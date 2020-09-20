@@ -6,8 +6,14 @@
   export let email;
   export let scope;
   export let _id;
-  let updated = {}
+  export let first;
+  export let last;
+  let updated = {
+    name: {}
+  }
   let id = {_id: _id}
+  if (first !== undefined && first !== null && first !== '') updated.name.first = first
+  if (last !== undefined && last !== null && last !== '') updated.name.last = last
   if (scope !== undefined && scope !== null && scope !== '') updated.scope = scope
   let n;
 	function _onCancel() {
@@ -40,7 +46,6 @@
 		text-align: center;
 	}
 	.buttons {
-    padding-top: .5em;
 		display: flex;
 		justify-content: space-between;
 	}
@@ -53,12 +58,27 @@
     <option value='admin'>admin</option>
     <option value='user'>user</option>
   </select>
+  <br>
+  <h4>Name (or Pseudonym) for Contributors:</h4>
+  <label for='firstName'>First Name</label>
+  <input class='input'
+    type='text'
+    id='firstName'
+    name='firstName'
+    bind:value={updated.name.first}/>
+  <br>
+  <label for='lastName'>Last Name</label>
+  <input class='input'
+    type='text'
+    id='lastName'
+    name='lastName'
+    bind:value={updated.name.last}/>
 </form>
 <div class="buttons">
-	<button on:click={_onCancel}>
-		Cancel
-	</button>
-	<button on:click={updateUser}>
-		Save
-	</button>
+  <button on:click={_onCancel}>
+    Cancel
+  </button>
+  <button on:click={updateUser}>
+    Save
+  </button>
 </div>

@@ -4,14 +4,20 @@
 	export let email;
   export let scope;
   export let _id;
+  export let name;
   //export let showEditUserModal = false;
   import { getContext } from 'svelte';
   import EditUser from './EditUser.svelte';
-
+  if (name == null || name == undefined){
+    name = {
+      first: '',
+      last: ''
+    }
+  }
   const { open } = getContext('simple-modal');
 
   const showEditUser = () => {
-    open(EditUser, {_id: _id, email: email, scope: scope});
+    open(EditUser, {_id: _id, email: email, scope: scope, first: name.first, last: name.last});
   };
 </script>
 <style>
