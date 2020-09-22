@@ -8,6 +8,7 @@
   let n;
   let email = null;
   let password = null;
+  let username = null;
 
   function register (email, password) {
     return fetch('api/signup', {
@@ -54,6 +55,13 @@
 
 <NotificationDisplay bind:this={n} />
 <form on:submit|preventDefault={register(email, password)}>
+  <label for='username'>Username</label>
+    <input class='input'
+      type='text'
+      id='username'
+      name='username'
+      bind:value={username}
+    />
   <label for='email'>Email</label>
   <input class='input'
     type='text'

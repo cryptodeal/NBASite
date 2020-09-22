@@ -9,12 +9,14 @@ import jwt from 'jsonwebtoken'
 mongoose.connect(process.env.MONGOOSE_URI, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false});
 
 //async function to check if email exists, then create user in mongodb.
-export async function createUser(email, password, cb) {
-  let result = await User.exists({ email: email })
-  if (result == false){
+export async function createUser(email, displayname, password, cb) {
+  let emailCheck = await User.exists({ email: email })
+  let displaynameCheck = await User.exists({ displayname: displayname})
+  if (emailCheck == false && displaynameCheck == false){
     console.log(`inside createUser function email: ${email} and password: ${password}`)
     let user = new User ({
       email: email,
+      displayname: displayname,
       password: password
     })
     user.save(function(err, userDoc) {
