@@ -13,7 +13,8 @@ export async function post(req, res){
 
   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
   const file = req.files.sampleFile;
-  const baseName = file.name.substring(0, file.name.lastIndexOf('.'));
+  //const baseName = file.name.substring(0, file.name.lastIndexOf('.'));
+  const baseName = 'test.jpg'
   if(!file.mimetype.startsWith('image')) {
     return (res.statusCode=400,res.end('Images only!'));
   }

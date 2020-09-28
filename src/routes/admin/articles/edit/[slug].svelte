@@ -66,6 +66,50 @@
     values.categories.push({value: cat._id, label: cat.name})
   })
 
+  function apiPostNewsImage(fd) {
+    return fetch('api/content/images/picture', {
+      method: 'POST',
+      body: fd
+    }).then(res => res.json())
+    .then(result => {
+      console.log(result)
+      return result[0].location
+    })
+  }
+  function imageHandler(){
+    const input = document.createElement('input');
+
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
+    input.click();
+
+    input.onchange = async () => {
+      const file = input.files[0];
+      const formData = new FormData();
+      console.log(file)
+
+      formData.append('sampleFile', file);
+
+      // Save current cursor state
+      const range = this.quill.getSelection(true);
+
+      // Insert temporary loading placeholder image
+      //this.quill.insertEmbed(range.index, 'image', `${window.location.origin}/images/loaders/placeholder.gif`);
+
+      // Move cursor to right side of image (easier to continue typing)
+      //this.quill.setSelection(range.index + 1);
+
+      const res = await apiPostNewsImage(formData); // API post, returns image location as string e.g. 'http://www.example.com/images/foo.png'
+
+      // Remove placeholder image
+      //this.quill.deleteText(range.index, 1);
+
+      // Insert uploaded image
+      // this.quill.insertEmbed(range.index, 'image', res.body.image);
+      this.quill.insertEmbed(range.index, 'image', res);
+    };
+  }
+  
 	onMount(async() => {
     const { default: Quill } = await import('quill')
     const BaseBlock = Quill.import('blots/block/embed');
@@ -125,7 +169,8 @@
     TwitterBlot.className = 'ql-tweet';
     TwitterBlot.tagName = 'div';
     Quill.register({
-	    'formats/twitter': TwitterBlot
+      //'modules/imageUploader': ImageUploader,
+      'formats/twitter': TwitterBlot,
     });
 		quill = new Quill(editor, {
       modules: {
@@ -147,12 +192,13 @@
                 const cursorPosition = this.quill.getSelection().index;
                 quill.insertEmbed(cursorPosition, 'tweet', { url: value });
               }
-            }
+            },
+            image: imageHandler
           }
         }
       },
       placeholder: "Compose an article...",
-      theme: "snow" // or 'bubble'
+      theme: "snow", // or 'bubble'
     });
     document.querySelector('.ql-tweet').innerHTML = '<svg viewBox="0 0 275 275" xmlns="http://www.w3.org/2000/svg"><path d="M91.1 239c94.4 0 146-78 146-145.8 0-2.3 0-4.5-.2-6.7 10-7.2 18.7-16.2 25.6-26.5-9.4 4.1-19.3 6.8-29.5 8a51.5 51.5 0 0 0 22.6-28.3c-10 6-21 10.2-32.6 12.4A51.3 51.3 0 0 0 135.6 99C94.4 96.9 56 77.4 30 45.3a51.3 51.3 0 0 0 15.9 68.5 51 51 0 0 1-23.3-6.4v.6a51.3 51.3 0 0 0 41.1 50.3c-7.5 2-15.4 2.4-23.1.9a51.3 51.3 0 0 0 48 35.6 103 103 0 0 1-76 21.3c23.5 15 50.7 23 78.6 23" fill="#444" fill-rule="nonzero"/></svg>'
   })
