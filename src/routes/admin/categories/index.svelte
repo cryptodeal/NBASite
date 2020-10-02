@@ -72,14 +72,14 @@
         <Modal>
           <Content />
         </Modal>
-        <h3>Email: </h3> <input type='text' bind:value={nameSearch}/>
+        <h3>Category Name: </h3> <input type='text' bind:value={nameSearch}/>
         <div class='container'>
           <VirtualList items={filteredList} bind:start bind:end let:item>
             <Modal>
               <CatListItem {...item}/>
             </Modal>
 	        </VirtualList>
-	        <p>showing users {start}-{end}</p>
+	        <p>showing categories {start}-{end}</p>
         </div>
     </div>
   </div>
