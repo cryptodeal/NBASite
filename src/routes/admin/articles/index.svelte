@@ -8,7 +8,7 @@
 
 <script>
     export let articles;
-    import Sidebar from '../../../components/Sidebar.svelte'
+    import Sidebar from '@/components/admin/Sidebar.svelte'
     import { goto, stores } from '@sapper/app'
     import Content from '../../../components/NewArticleContent.svelte'
     import Modal from 'svelte-simple-modal'

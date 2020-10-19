@@ -16,11 +16,11 @@
   import { onMount } from 'svelte'
   import Select from 'svelte-select';
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
-  import Textarea from "../../../../components/Textarea.svelte";
+  import TextArea from "@/components/admin/articles/edit/TextAreaAutosize.svelte";
   import Grid from 'svelte-grid-responsive'
   import 'quill/dist/quill.snow.css'
   import Datepicker from 'svelte-calendar'
-  import Sidebar from '../../../../components/Sidebar.svelte'
+  import Sidebar from '@/components/admin/Sidebar.svelte'
   let values = {
     content: {},
   }
@@ -247,6 +247,19 @@
   function printDate(){
     console.log(values.publishedDate)
   }
+  function upload (e){
+    const file = e.target.files[0]
+    const fd = new FormData();
+    fd.append('sampleFile', file);
+    return fetch('api/content/images/picture', {
+      method: 'POST',
+      body: fd
+    }).then(res => {
+      return res.status === 400 ? notifier.danger(`File not sent in upload`)
+      : res.status === 500 ? notifier.danger(`Upload failed`)
+      : notifier.success(`Upload successful`)
+    });
+  }
 </script>
 
 <style>
@@ -320,7 +333,7 @@
 </style>
 
 <svelte:head>
-	<title>{article.title}. ID: {article._id}</title>
+	<title>Edit: {article.title}</title>
 </svelte:head>
 
 <main>
@@ -340,6 +353,15 @@
         </Grid>
         <Grid xs={12} md={10} lg={11}>
           <input type="text" bind:value={values.title} />
+        </Grid>
+      </Grid>
+      <br/>
+    	<Grid container gutter={12}>
+        <Grid xs={12} md={2} lg={1}>
+          Featured Image:
+        </Grid>
+        <Grid xs={12} md={10} lg={11}>
+          <input on:change={upload} type='file' >
         </Grid>
       </Grid>
       <br/>
@@ -401,7 +423,11 @@
         </Grid>
         <Grid xs={12} md={10} lg={11}>
           <form>
-            <Textarea name={'Content Brief'} type='text' bind:value={values.content.brief} />
+            <TextArea 
+              bind:value={values.content.brief}  
+              minRows={2}
+              maxRows={10}
+            />
           </form>
         </Grid>
       </Grid>

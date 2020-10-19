@@ -1,6 +1,6 @@
 <script>
   import { goto, stores } from '@sapper/app'
-  import Sidebar from '../../components/Sidebar.svelte'
+  import Sidebar from '@/components/admin/Sidebar.svelte'
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
   let n;
   let sidebar_show = false;
