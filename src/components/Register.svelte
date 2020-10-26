@@ -20,7 +20,8 @@
       },
       body: JSON.stringify({
         email,
-        password
+        password,
+        username
       })
     }).then(res => {
       if(res.status === 409){

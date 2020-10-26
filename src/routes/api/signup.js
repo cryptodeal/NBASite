@@ -4,7 +4,7 @@ export async function post(req, res){
 //REMOVE CONSOLE.LOG EMAIL AND PASSWORD BEFORE DEPLOYING TO PRODUCTION
   console.log(req.body.email)
   console.log(req.body.password)
-  createUser(req.body.email, req.body.password, function(err, user){
+  createUser(req.body.email, req.body.username, req.body.password, function(err, user){
       if(err){
         console.log(err)
         res.statusCode = 500
@@ -19,8 +19,8 @@ export async function post(req, res){
           const expireInOne = new Date()
           expireInOne.setHours(expireInOne.getHours() + 6)
           console.log('creating token...')
-          res.statusCode = 401
-          //res.setHeader('Set-Cookie', `authToken=${token}; Expires=${expireInOne}; HttpOnly; Path=/`)
+          res.statusCode = 201
+          res.setHeader('Set-Cookie', `authToken=${token}; Expires=${expireInOne}; HttpOnly; Path=/`)
           res.end()
       })
       }
