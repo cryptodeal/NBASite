@@ -5,6 +5,9 @@
 
   const [ emailValidity, emailValidate ] = createFieldValidator(requiredValidator(), emailValidator())
   const [ pwdValidity, pwdValidate ] = createFieldValidator(requiredValidator(), pwdSpecCharValidator())
+  //TODO: Write async validator to check username availability and notify client side
+  //const [usernameValidity, usernameValidate] = createFieldValidator(requiredValidator(), usernameValidator())
+  const [usernameValidity, usernameValidate] = createFieldValidator(requiredValidator())
   let n;
   let email = null;
   let password = null;
@@ -62,6 +65,9 @@
       id='username'
       name='username'
       bind:value={username}
+      class:field-danger={!$usernameValidity.valid}
+      class:field-success={$usernameValidity.valid}
+      use:usernameValidate={username}
     />
   <label for='email'>Email</label>
   <input class='input'
