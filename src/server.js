@@ -1,7 +1,7 @@
-import sirv from 'sirv'
-import polka from 'polka'
-import compression from 'compression'
-import * as sapper from '@sapper/server'
+import sirv from 'sirv';
+import polka from 'polka';
+import compression from 'compression';
+import * as sapper from '@sapper/server';
 import cookieParser from 'cookie-parser'
 import jwt from 'jsonwebtoken'
 import mongoSanitize from 'express-mongo-sanitize'
@@ -9,14 +9,12 @@ const { json } = require('body-parser');
 const fileUpload = require('express-fileupload');
 const secureRandom = require('secure-random');
 import { routerVerify } from './mongoose'
-
-export let signingKey = secureRandom(256, {type: 'Buffer'});
-
 import { guard } from '@beyonk/sapper-rbac'
 import routes from './config/routes.js'
+export let signingKey = secureRandom(256, {type: 'Buffer'});
 
-const { PORT, NODE_ENV } = process.env
-const dev = NODE_ENV === 'development'
+const { PORT, NODE_ENV } = process.env;
+const dev = NODE_ENV === 'development';
 
 polka()
   .use(

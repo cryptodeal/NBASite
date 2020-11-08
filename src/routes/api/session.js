@@ -2,7 +2,7 @@ import { validateUser, createToken } from '../../mongoose'
 
 //implement server side form validation
 
-export async function post(req, res){
+export function post(req, res){
 //REMOVE CONSOLE.LOG EMAIL AND PASSWORD BEFORE DEPLOYING TO PRODUCTION
   console.log(`email: ${req.body.email}`)
   console.log(`password ${req.body.password}`)
@@ -18,8 +18,9 @@ export async function post(req, res){
           const expireInOne = new Date()
           expireInOne.setHours(expireInOne.getHours() + 6)
           console.log('creating token...')
+          console.log(`Token: ${token}`)
           res.statusCode = 201
-          res.setHeader('Set-Cookie', `authToken=${token}; Expires=${expireInOne}; HttpOnly; Path=/`)
+          res.setHeader('Set-Cookie', `authToken=${token}; Expires=${expireInOne}; HttpOnly; SameSite=Strict; Path=/`)
           res.end()
       }).catch(console.error)
     } else {
@@ -32,6 +33,6 @@ export async function post(req, res){
 //Logout by expiring auth cookie
 export function del(req, res){
   res.statusCode = 200
-  res.setHeader('Set-Cookie', `authToken=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; Path=/`)
+  res.setHeader('Set-Cookie', `authToken=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=Strict; Path=/`)
   res.end()
 }

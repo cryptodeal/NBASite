@@ -7,7 +7,7 @@
   export let name;
   //export let showEditUserModal = false;
   import { getContext } from 'svelte';
-  import EditUser from '@/components/admin/users/EditUser.svelte';
+  import EditUser from '../../../components/admin/users/EditUser.svelte';
   if (name == null || name == undefined){
     name = {
       first: '',

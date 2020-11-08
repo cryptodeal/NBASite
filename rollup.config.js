@@ -1,24 +1,24 @@
+import path from 'path';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import commonjs from '@rollup/plugin-commonjs';
+import url from '@rollup/plugin-url';
 import svelte from 'rollup-plugin-svelte';
-import babel from 'rollup-plugin-babel';
+import babel from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import config from 'sapper/config/rollup.js';
 import pkg from './package.json';
 import image from 'svelte-image';
 import json from '@rollup/plugin-json';
-import alias from '@rollup/plugin-alias';
-import path from 'path';
 
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
 
 const onwarn = (warning, onwarn) =>
-  (warning.code === 'MISSING_EXPORT' && /'preload'/.test(warning.message)) ||
-  (warning.code === 'CIRCULAR_DEPENDENCY' && /[/\\]@sapper[/\\]/.test(warning.message)) ||
-  onwarn(warning);
+	(warning.code === 'MISSING_EXPORT' && /'preload'/.test(warning.message)) ||
+	(warning.code === 'CIRCULAR_DEPENDENCY' && /[/\\]@sapper[/\\]/.test(warning.message)) ||
+	onwarn(warning);
 
 export default {
 	client: {
@@ -29,31 +29,30 @@ export default {
 				'process.browser': true,
 				'process.env.NODE_ENV': JSON.stringify(mode)
       }),
-      alias({
-        resolve: ['.jsx', '.js', '.svelte'], // optional, by default this will just look for .js files or folders
-        entries: [
-          { find: '@', replacement: path.resolve(__dirname, 'src') },
-        ]
-      }),
       json(),
 			svelte({
 				dev,
 				hydratable: true,
-				emitCss: true,
-				preprocess: image({
+        emitCss: true,
+        preprocess: image({
 					placeholder: 'blur',
 					sizes: [650, 800, 1050, 1400, 1650, 1950],
-					breakpoints: [640, 768, 1024, 1366, 1600, 1920]
+          breakpoints: [640, 768, 1024, 1366, 1600, 1920]
 				}),
+			}),
+			url({
+				sourceDir: path.resolve(__dirname, 'src/node_modules/images'),
+				publicPath: '/client/'
 			}),
 			resolve({
 				browser: true,
 				dedupe: ['svelte']
 			}),
 			commonjs(),
+
 			legacy && babel({
 				extensions: ['.js', '.mjs', '.html', '.svelte'],
-				runtimeHelpers: true,
+				babelHelpers: 'runtime',
 				exclude: ['node_modules/@babel/**'],
 				presets: [
 					['@babel/preset-env', {
@@ -85,25 +84,23 @@ export default {
 				'process.browser': false,
 				'process.env.NODE_ENV': JSON.stringify(mode)
       }),
-      alias({
-        resolve: ['.jsx', '.js', '.svelte'], // optional, by default this will just look for .js files or folders
-        entries: [
-          { find: '@', replacement: path.resolve(__dirname, 'src') },
-        ]
-      }),
       json(),
 			svelte({
 				generate: 'ssr',
+				hydratable: true,
 				dev
+			}),
+			url({
+				sourceDir: path.resolve(__dirname, 'src/node_modules/images'),
+				publicPath: '/client/',
+				emitFiles: false // already emitted by client build
 			}),
 			resolve({
 				dedupe: ['svelte']
 			}),
-      commonjs(),
+			commonjs()
 		],
-		external: Object.keys(pkg.dependencies).concat(
-			require('module').builtinModules || Object.keys(process.binding('natives'))
-		),
+		external: Object.keys(pkg.dependencies).concat(require('module').builtinModules),
 
 		preserveEntrySignatures: 'strict',
 		onwarn,

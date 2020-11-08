@@ -10,14 +10,15 @@
   let email = null;
   let password = null;
 
-  function login (email, password) {
-    return fetch('api/session', {
+function login (email, password) {
+    fetch('api/session', {
       method: 'POST',
-      mode: 'cors',
-      credentials: 'include',
+      //referrerPolicy: 'no-referrer-when-downgrade',
+      mode: 'same-origin',
       headers: {
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: JSON.stringify({
         email,
         password
@@ -26,7 +27,8 @@
       if(res.status === 401){
         notifier.danger('Authentication failed')
       } else {
-        window.location.href= 'profile'
+        window.location.href = 'profile'
+        //console.log('finish fetch request')
       }
     })
   }

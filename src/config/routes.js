@@ -5,7 +5,7 @@ const routes = new Router()
   .restrict('/organisation.*', ['owner'])
   .restrict('/profile.*', ['admin', 'contributor', 'moderator', 'subscriber', 'user'])
   .restrict('/api/content.*', ['admin'])
-  .unrestrict('/.*') // add this after the guarded sub-urls
+  .unrestrict('/.*')// add this after the guarded sub-urls
   .build()
 
 export default routes

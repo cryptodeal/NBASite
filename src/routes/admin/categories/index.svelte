@@ -7,9 +7,9 @@
 </script>
 <script>
     export let categories;
-    import Sidebar from '@/components/admin/Sidebar.svelte'
-    import Content from '@/components/admin/categories/CatContent.svelte'
-    import CatListItem from '@/components/admin/categories/CatListItem.svelte'
+    import Sidebar from '../../../components/admin/Sidebar.svelte'
+    import Content from '../../../components/admin/categories/CatContent.svelte'
+    import CatListItem from '../../../components/admin/categories/CatListItem.svelte'
     import VirtualList from '@sveltejs/svelte-virtual-list'
     import Modal from 'svelte-simple-modal'
     import { goto, stores } from '@sapper/app'

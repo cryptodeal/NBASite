@@ -1,6 +1,6 @@
 import { createUser, createToken } from '../../mongoose'
 
-export async function post(req, res){
+export function post(req, res){
 //REMOVE CONSOLE.LOG EMAIL AND PASSWORD BEFORE DEPLOYING TO PRODUCTION
   console.log(req.body.email)
   console.log(req.body.password)
@@ -20,7 +20,7 @@ export async function post(req, res){
           expireInOne.setHours(expireInOne.getHours() + 6)
           console.log('creating token...')
           res.statusCode = 201
-          res.setHeader('Set-Cookie', `authToken=${token}; Expires=${expireInOne}; HttpOnly; Path=/`)
+          res.setHeader('Set-Cookie', `authToken=${token}; Expires=${expireInOne}; HttpOnly; SameSite=Strict; Path=/`)
           res.end()
       })
       }

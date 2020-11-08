@@ -1,7 +1,7 @@
 <script>
   import { getContext } from 'svelte';
-  import { requiredValidator } from '@/components/validators.js'
-  import { createFieldValidator } from '@/components/validation.js'
+  import { requiredValidator } from '../../../components/validators.js'
+  import { createFieldValidator } from '../../../components/validation.js'
   //export let message;
 	//export let hasForm = false;
 	export let onCancel = () => {};

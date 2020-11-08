@@ -11,7 +11,7 @@ mongoose.connect(process.env.MONGOOSE_URI, {useNewUrlParser: true, useUnifiedTop
 //async function to check if email exists, then create user in mongodb.
 export async function createUser(email, username, password, cb) {
   let emailCheck = await User.exists({ email: email })
-  let usernameCheck = await User.exists({ usernam: username})
+  let usernameCheck = await User.exists({ username: username})
   if (emailCheck == false && usernameCheck == false){
     console.log(`inside createUser function email: ${email} and password: ${password}`)
     let user = new User ({
@@ -49,7 +49,7 @@ export async function createToken(user){
     email:  user.email,
     //hard coding scope until admin panel allows scope to be set
     scope: [ 'admin' ],
-    iss: 'http://localhost:3000/'
+    iss: 'http://127.0.0.1:3000/'
   }
   let token = await jwt.sign(claims, signingKey, { expiresIn: '1h' });
   return token;

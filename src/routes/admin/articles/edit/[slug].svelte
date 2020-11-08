@@ -16,11 +16,11 @@
   import { onMount } from 'svelte'
   import Select from 'svelte-select';
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
-  import TextArea from "@/components/admin/articles/edit/TextAreaAutosize.svelte";
+  import TextArea from "../../../../components/admin/articles/edit/TextAreaAutosize.svelte";
   import Grid from 'svelte-grid-responsive'
   import 'quill/dist/quill.snow.css'
   import Datepicker from 'svelte-calendar'
-  import Sidebar from '@/components/admin/Sidebar.svelte'
+  import Sidebar from '../../../../components/admin/Sidebar.svelte'
   let values = {
     content: {},
   }
