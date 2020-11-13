@@ -4,6 +4,8 @@
 <dl>
   <dt>Email:</dt>
   <dd>{profile.email}</dd>
+  <dt>Username:</dt>
+  <dd>{profile.username}</dd>
 </dl>
 
 <h2>My Scopes</h2>

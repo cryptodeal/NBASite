@@ -47,6 +47,7 @@ export async function validateUser(email, password, cb) {
 export async function createToken(user){
   let claims = {
     email:  user.email,
+    username: user.username,
     //hard coding scope until admin panel allows scope to be set
     scope: [ 'admin' ],
     iss: 'http://127.0.0.1:3000/'

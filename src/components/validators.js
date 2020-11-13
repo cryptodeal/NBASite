@@ -7,7 +7,7 @@ function emailValidator () {
 function pwdSpecCharValidator () {
   return function SpecialChar (value) {
     let pwdRegex = /^.*[!@#$%^&*()_+\-=\[\]{};':'\\|,.<>\/?].*$/
-    return (value && pwdRegex.test(value) || 'Password requires special character (not a-Z, 0-9)')
+    return (value && pwdRegex.test(value)) || 'Password requires special character (not a-Z, 0-9)'
   }
 }
 function requiredValidator () {
