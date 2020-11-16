@@ -50,6 +50,7 @@ export async function createToken(user){
     username: user.username,
     //hard coding scope until admin panel allows scope to be set
     scope: [ 'admin' ],
+    id: user._id,
     iss: 'http://127.0.0.1:3000/'
   }
   let token = await jwt.sign(claims, signingKey, { expiresIn: '1h' });
