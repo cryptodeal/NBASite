@@ -1,18 +1,23 @@
 <script>
+  //profile included so user info can be submitted w/ form automatically w/o requiring user to re-enter info
   export let profile;
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
   import { requiredValidator } from '../validators.js'
   import { createFieldValidator } from '../validation.js'
 
-  const [ emailValidity, emailValidate ] = createFieldValidator(requiredValidator())
-  const [ pwdValidity, pwdValidate ] = createFieldValidator(requiredValidator())
+  const [ justificationValidity, justificationValidate ] = createFieldValidator(requiredValidator())
+  const [ qualificationsValidity, qualificationsValidate ] = createFieldValidator(requiredValidator())
   let n;
-  
-  let email = null;
-  let password = null;
+  let application = {
+    user: profile.id,
+    justification: null,
+    qualifications: null,
+    scope: 'contributor'
+  }
+
 
 function submitApplication(email, password) {
-    fetch('api/submit-scope-application', {
+    fetch('api/scope/application', {
       method: 'POST',
       //referrerPolicy: 'no-referrer-when-downgrade',
       mode: 'same-origin',
@@ -21,8 +26,7 @@ function submitApplication(email, password) {
       },
       credentials: 'include',
       body: JSON.stringify({
-        email,
-        password
+        application
       })
     }).then(res => {
       if(res.status === 401){
@@ -55,37 +59,37 @@ function submitApplication(email, password) {
 
 <NotificationDisplay bind:this={n} />
 <h2>Site Role Application</h2>
-<form on:submit|preventDefault={submitApplication(email, password)}>
-  <label for='email'>Email</label>
+<form on:submit|preventDefault={submitApplication(application)}>
+  <label for='justification'>Justification for New Role:</label>
   <input class='input'
     type='text'
-    id='email'
-    name='email'
-    bind:value={email}
-    class:field-danger={!$emailValidity.valid}
-    class:field-success={$emailValidity.valid}
-    use:emailValidate={email}
+    id='justification'
+    name='justification'
+    bind:value={application.justification}
+    class:field-danger={!$justificationValidity.valid}
+    class:field-success={$justificationValidity.valid}
+    use:justificationValidate={application.justification}
   />
-  {#if $emailValidity.dirty && !$emailValidity.valid}
+  {#if $justificationValidity.dirty && !$justificationValidity.valid}
     <p class='validation-hint'>
-      INVALID: {$emailValidity.message} 
+      INVALID: {$justificationValidity.message} 
     </p>
   {/if}
-  <label for='password'>Password</label>
+  <label for='qualifications'>Qualifications for New Role:</label>
   <input class='input'
-    type='password'
-    id='password'
-    name='password'
-    bind:value={password} 
-    class:field-danger={!$pwdValidity.valid}
-    class:field-success={$pwdValidity.valid}
-    use:pwdValidate={password}
+    type='text'
+    id='qualifications'
+    name='qualifications'
+    bind:value={application.qualifications} 
+    class:field-danger={!$qualificationsValidity.valid}
+    class:field-success={$qualificationsValidity.valid}
+    use:qualificationsValidate={application.qualifications}
   />
-  {#if $pwdValidity.dirty && !$pwdValidity.valid}
+  {#if $qualificationsValidity.dirty && !$qualificationsValidity.valid}
     <p class='validation-hint'>
-      INVALID: {$pwdValidity.message} 
+      INVALID: {$qualificationsValidity.message} 
     </p>
   {/if}
-  <button disabled={!$emailValidity.valid || !$pwdValidity.valid}>Submit Application</button>
+  <button disabled={!$justificationValidity.valid || !$qualificationsValidity.valid}>Submit Application</button>
 </form>
 

@@ -3,6 +3,7 @@ require('dotenv').config();
 import User from '@models/User';
 import Post from '@models/Post';
 import Category from '@models/Category'
+import ScopeApp from '@models/ScopeApplication'
 import { signingKey } from './server'
 import jwt from 'jsonwebtoken'
 
@@ -163,4 +164,15 @@ export function updateUser(id, updated) {
 
 export function updateCat(id, updated) {
   return Category.findByIdAndUpdate(id, {$set: updated}, {new: true}).exec()
+}
+
+export async function submitScopeApp(application) {
+  console.log(application)
+  let result = await ScopeApp.exists({ user: application.user, scope: application.scope, state: 'pending review' })
+  if (result == false ){
+    let scopeApp = new ScopeApp(application)
+    return scopeApp.save()
+  } else {
+    return null
+  }
 }
