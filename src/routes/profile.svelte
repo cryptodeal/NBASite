@@ -94,6 +94,12 @@
   <ScopeContent {profile}/>
 </Modal>
 <h3>My Applications</h3>
-{#each apps as app}
-  <li>{app.state}</li>
-{/each}
+{#if apps.length}
+  {#each apps as app}
+    <li>{app.state}</li>
+  {/each}
+{:else}
+  <dl>
+    <dt>No applications submitted</dt>
+  </dl>
+{/if}

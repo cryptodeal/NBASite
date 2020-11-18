@@ -28,8 +28,8 @@ export function post(req, res){
       }
     else {
       console.log(verifiedJwt)
-      console.log(`User ID to modify: ${JSON.stringify(req.body.id)}`)
-      updateUser(req.body.id, req.body.updated).then(updatedUser => {
+      console.log(`User ID to modify: ${JSON.stringify(verifiedJwt.id)}`)
+      updateUser(verifiedJwt.id, req.body.updated).then(updatedUser => {
         if(!updatedUser){
           console.log('User could not be updated')
           res.statusCode = 409
