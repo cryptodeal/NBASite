@@ -176,3 +176,7 @@ export async function submitScopeApp(application) {
     return null
   }
 }
+
+export function getUserApps(id) {
+  return ScopeApp.find({ user: id }).exec()
+}

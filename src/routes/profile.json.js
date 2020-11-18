@@ -1,4 +1,23 @@
-import { updateUser, verifyToken, createToken } from '../mongoose'
+import { updateUser, verifyToken, createToken, getUserApps } from '../mongoose'
+
+export function get(req, res) {
+  verifyToken(req.cookies['authToken'], function(err, verifiedJwt){
+    if(err){
+      console.log(err)
+      res.statusCode = 401
+      res.end(JSON.stringify(err))
+      }
+    else {
+      console.log(verifiedJwt)
+      getUserApps(verifiedJwt.id).then(apps => {
+        res.writeHead(200, {
+          'Content-Type': 'application/json'
+        });
+        res.end(JSON.stringify(apps));
+      }).catch(console.error)
+    }
+  })
+}
 
 export function post(req, res){
   verifyToken(req.cookies['authToken'], function(err, verifiedJwt){

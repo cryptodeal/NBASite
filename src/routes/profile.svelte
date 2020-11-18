@@ -1,13 +1,25 @@
 <script context="module">
   export async function preload (page, session) {
-    return {
-      profile: session.profile
-    }
+    const res = await this.fetch(`/profile.json`);
+		const data = await res.json();
+
+		if (res.status === 200) {
+			return { 
+        profile: session.profile,
+        apps: data
+        }
+		} else {
+      return {
+        profile: session.profile
+      }
+		}
+    
   }
 </script>
 
 <script>
   export let profile
+  export let apps
   import Modal from 'svelte-simple-modal'
   import ScopeContent from '../components/profile/ScopeContent.svelte'
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
@@ -81,3 +93,7 @@
 <Modal>
   <ScopeContent {profile}/>
 </Modal>
+<h3>My Applications</h3>
+{#each apps as app}
+  <li>{app.state}</li>
+{/each}
