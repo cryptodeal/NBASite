@@ -49,6 +49,7 @@ nav {
       <a rel='prefetch' href="admin/articles" on:click={() => show = !show}>Articles</a>
       <a rel='prefetch' href="admin/categories" on:click={() => show = !show}>Categories</a>
       <a rel='prefetch' href="admin/users" on:click={() => show = !show}>Manage Users</a>
+      <a rel='prefetch' href="admin/apps" on:click={() => show = !show}>User Apps</a>
     </div>
   </nav>
 {/if}

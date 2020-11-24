@@ -166,6 +166,7 @@ export function updateCat(id, updated) {
   return Category.findByIdAndUpdate(id, {$set: updated}, {new: true}).exec()
 }
 
+//Functions related to User Applications (user side)
 export async function submitScopeApp(application) {
   console.log(application)
   let result = await ScopeApp.exists({ user: application.user, scope: application.scope, state: 'pending review' })
@@ -179,4 +180,9 @@ export async function submitScopeApp(application) {
 
 export function getUserApps(id) {
   return ScopeApp.find({ user: id }).exec()
+}
+
+//Functions related to User Applications (admin side)
+export function listApps() {
+  return ScopeApp.find({state: 'pending review'}).populate('user').sort('dateSubmitted').exec()
 }
