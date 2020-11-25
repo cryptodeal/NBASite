@@ -1,6 +1,8 @@
-import { verifyToken, listApps  } from '../../../mongoose'
+import { verifyToken, listApps, saveAppReview } from '../../../mongoose'
 
 export function get(req, res) {
+  //need to enable verifyToken on router level, but I suspect this is unnecessary since route guards are in place
+  //removing this increases efficiency bc it halves the number of verifyTokens for this API call
   verifyToken(req.cookies['authToken'], function(err, verifiedJwt){
     if(err){
       console.log(err)
@@ -27,15 +29,14 @@ export function post(req, res){
       }
     else {
       console.log(verifiedJwt)
-      //console.log(`category id to modify: ${JSON.stringify(req.body.id)}`)
-      if(req.body.id){
-        updateCat(req.body.id, req.body.updated).then(updatedCat => {
-          if(!updatedCat){
-            console.log('category could not be updated')
+      req.body.updated.reviewedBy = verifiedJwt.id
+        saveAppReview(req.body.id, req.body.updated).then(reviewedApp => {
+          if(!reviewedApp){
+            console.log('app could not be updated')
             res.statusCode = 409
             res.end();
           } else{
-            console.log(`category updated successfully: ${updatedCat}`)
+            console.log(`app review submitted; app updated successfully: ${reviewedApp}`)
             res.statusCode = 201
             res.end()
           }
@@ -44,23 +45,6 @@ export function post(req, res){
           res.statusCode = 500
           res.end(JSON.stringify(err))
         })
-      } else {
-        addCategory(req.body.name).then(category => {
-          if(!category){
-            console.log('Category already exists')
-            res.statusCode = 409
-            res.end(JSON.stringify({
-              message: `Category already exists`
-            }));
-          } else{
-            console.log(`Category stored to database successfully: ${category}`)
-            res.statusCode = 201
-            res.end(JSON.stringify({
-                message: `Category saved successfully`
-            }));
-          }
-        }).catch(console.error)
-      }
     }
   })
 }

@@ -169,6 +169,7 @@ export function updateCat(id, updated) {
 //Functions related to User Applications (user side)
 export async function submitScopeApp(application) {
   console.log(application)
+  //this check needs to be made smarter. Needs to verify the user isn't already the state they're requesting (can also prevent client side)
   let result = await ScopeApp.exists({ user: application.user, scope: application.scope, state: 'pending review' })
   if (result == false ){
     let scopeApp = new ScopeApp(application)
@@ -185,4 +186,9 @@ export function getUserApps(id) {
 //Functions related to User Applications (admin side)
 export function listApps() {
   return ScopeApp.find({state: 'pending review'}).populate('user').sort('dateSubmitted').exec()
+}
+
+export function saveAppReview(id, feedback){
+  console.log(feedback)
+  return ScopeApp.findByIdAndUpdate(id, {$set: feedback}, {new: true}).exec()
 }
