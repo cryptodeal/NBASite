@@ -12,14 +12,14 @@
     import Modal from 'svelte-simple-modal'
     import Grid from 'svelte-grid-responsive'
     import Sidebar from '../../../components/admin/Sidebar.svelte'
-    //import VirtualList from '@sveltejs/svelte-virtual-list'
-    //import UserListItem from '../../../components/admin/users/UserListItem.svelte'
+    import VirtualList from '@sveltejs/svelte-virtual-list'
+    import AppListItem from '../../../components/admin/apps/AppListItem.svelte'
     import { goto, stores } from '@sapper/app'
     let sidebar_show = false;
     let emailSearch = '';
     let scopeSearch = '';
     let useritemlist_show = false;
-	  //$: filteredList = apps.filter(app => app.email.toLowerCase().indexOf(emailSearch.toLowerCase()) !== -1 && app.scope.toLowerCase().indexOf(scopeSearch.toLowerCase()) !== -1);
+	  $: filteredList = apps.filter(app => app.user.email.toLowerCase().indexOf(emailSearch.toLowerCase()) !== -1 && app.scope.toLowerCase().indexOf(scopeSearch.toLowerCase()) !== -1);
 	  let start;
     let end;
 </script>
@@ -71,9 +71,31 @@
     </div>
     <div class='column2'>
       <h1>Applications Pending Review</h1>
-        {#each apps as app}
-          <p>{app.user.email}</p>
-        {/each}
+        <Grid container gutter={12}>
+          <Grid xs={12} md={4} lg={4}>
+            <h3>Email: </h3> <input type='text' bind:value={emailSearch}/>
+          </Grid>
+          <Grid xs={12} md={4} lg={4}>
+            <h3>Permissions: </h3>
+            <select bind:value={scopeSearch}>
+              <option value=''>-- Select User Type --</option>
+              <option value='admin'>admin</option>
+              <option value='user'>user</option>
+            </select>
+          </Grid>
+          <Grid xs={0} md={4} lg={4}>
+            <h3>Edit:</h3>
+          </Grid>
+        </Grid>
+        <br/>
+        <div class='container'>
+          <VirtualList items={filteredList} bind:start bind:end let:item>
+            <Modal>
+              <AppListItem {...item}/>
+            </Modal>
+	        </VirtualList>
+	        <p>showing applications {start}-{end}</p>
+        </div>
     </div>
   </div>
 </main>
