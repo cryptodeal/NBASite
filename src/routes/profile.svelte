@@ -21,6 +21,7 @@
   export let profile
   export let apps
   import Modal from 'svelte-simple-modal'
+  import dayjs from 'dayjs'
   import ScopeContent from '../components/profile/ScopeContent.svelte'
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
   let n;
@@ -53,6 +54,20 @@
     })
   }
 </script>
+<style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
 
 <NotificationDisplay bind:this={n} />
 <h1>Welcome, {profile.username}</h1>
@@ -95,9 +110,23 @@
 </Modal>
 <h3>My Applications</h3>
 {#if apps.length}
-  {#each apps as app}
-    <li>{app.state}</li>
-  {/each}
+  <table>
+    <tr>
+      <th>Date Submitted</th>
+      <th>Role Requested</th>
+      <th>Status</th>
+      <th>Review/Edit App</th>
+    </tr>
+    {#each apps as app}
+      <tr>
+        <td>{dayjs(app.dateSubmitted).format('MMM. D, YYYY')}</td>
+        <td>{app.scope}</td>
+        <td>{app.state}</td>
+        <td>Insert Button Here to Application Modal</td>
+      </tr>
+    {/each}
+    
+  </table>
 {:else}
   <dl>
     <dt>No applications submitted</dt>

@@ -8,8 +8,8 @@
   export let state;
   export let justification;
   export let qualifications;
-  export let dateSubmitted;
-  export let dateRevised;
+  //export let dateSubmitted;
+  //export let dateRevised;
   export let _id;
   let updated = {
     state: state,
