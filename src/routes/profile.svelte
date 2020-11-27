@@ -23,6 +23,7 @@
   import Modal from 'svelte-simple-modal'
   import dayjs from 'dayjs'
   import ScopeContent from '../components/profile/ScopeContent.svelte'
+  import ReviseAppContent from '../components/profile/ReviseAppContent.svelte'
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
   let n;
   let edit = false;
@@ -122,7 +123,11 @@ tr:nth-child(even) {
         <td>{dayjs(app.dateSubmitted).format('MMM. D, YYYY')}</td>
         <td>{app.scope}</td>
         <td>{app.state}</td>
-        <td>Insert Button Here to Application Modal</td>
+        <td>
+          <Modal>
+            <ReviseAppContent {app}/>
+          </Modal>
+        </td>
       </tr>
     {/each}
     

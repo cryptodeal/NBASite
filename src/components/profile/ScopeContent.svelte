@@ -2,10 +2,9 @@
   import { getContext } from 'svelte';
   import ScopeApplicationModal from './ScopeApplicationModal.svelte'
   export let profile;
-  export let app;
   const { open } = getContext('simple-modal');
   const showScopeApplication = () => {
-    open(ScopeApplicationModal, { profile: profile, app: app });
+    open(ScopeApplicationModal, { profile: profile });
   };
 </script>
 
