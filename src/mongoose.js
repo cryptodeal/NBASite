@@ -179,6 +179,11 @@ export async function submitScopeApp(application) {
   }
 }
 
+export function updateScopeApp(application){
+  console.log(application)
+  return ScopeApp.findByIdAndUpdate(application._id, {$set: application}, {new: true}).exec()
+}
+
 export function getUserApps(id) {
   return ScopeApp.find({ user: id }).exec()
 }

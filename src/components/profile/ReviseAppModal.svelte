@@ -10,9 +10,8 @@
   const [ qualificationsValidity, qualificationsValidate ] = createFieldValidator(requiredValidator())
   let n;
 
-
-
 function submitApplication(email, password) {
+  console.log(JSON.stringify(app))
     fetch('api/scope/application', {
       method: 'POST',
       //referrerPolicy: 'no-referrer-when-downgrade',
@@ -22,7 +21,7 @@ function submitApplication(email, password) {
       },
       credentials: 'include',
       body: JSON.stringify({
-        application
+        app
       })
     }).then(res => {
       if(res.status === 401){
