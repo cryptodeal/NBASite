@@ -9,8 +9,9 @@ export function post(req, res){
       }
     else {
       console.log(verifiedJwt)
-      console.log(`Saving scope application to database: \n${req.body.application} `)
-      if(req.body.app._id){
+      console.log(`Saving scope application to database: \n${req.body.app} `)
+      //This if statement is causing errors when attempting to update or create a new application
+      if(req.body.app._id !== undefined){
         updateScopeApp(req.body.app).then(savedApp => {
           if(!savedApp){
             console.log('Could not save application')
@@ -27,7 +28,7 @@ export function post(req, res){
           }
         }).catch(console.error)
       } else {
-        submitScopeApp(req.body.application).then(savedApp => {
+        submitScopeApp(req.body.app).then(savedApp => {
           if(!savedApp){
             console.log('Could not save application')
             res.statusCode = 409

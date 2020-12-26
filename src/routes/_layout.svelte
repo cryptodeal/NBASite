@@ -28,6 +28,7 @@
     position: relative;
     background-color: white;
     padding: 2em;
+    max-width: 56em;
     margin: 0 auto;
     box-sizing: border-box;
   }

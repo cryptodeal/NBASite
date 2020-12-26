@@ -35,7 +35,7 @@
     border-radius: 2px;
     width: 100%;
     max-width: 100%;
-    max-height: 400px;
+    max-height: 350px;
 		background-color: white;
     overflow-x: scroll;
     list-style: none;

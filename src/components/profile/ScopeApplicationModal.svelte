@@ -8,7 +8,7 @@
   const [ justificationValidity, justificationValidate ] = createFieldValidator(requiredValidator())
   const [ qualificationsValidity, qualificationsValidate ] = createFieldValidator(requiredValidator())
   let n;
-  let application = {
+  let app = {
     user: profile.id,
     justification: null,
     qualifications: null,
@@ -26,7 +26,7 @@ function submitApplication(email, password) {
       },
       credentials: 'include',
       body: JSON.stringify({
-        application
+        app
       })
     }).then(res => {
       if(res.status === 401){
@@ -59,16 +59,16 @@ function submitApplication(email, password) {
 
 <NotificationDisplay bind:this={n} />
 <h2>Site Role Application</h2>
-<form on:submit|preventDefault={submitApplication(application)}>
+<form on:submit|preventDefault={submitApplication(app)}>
   <label for='justification'>Justification for New Role:</label>
   <input class='input'
     type='text'
     id='justification'
     name='justification'
-    bind:value={application.justification}
+    bind:value={app.justification}
     class:field-danger={!$justificationValidity.valid}
     class:field-success={$justificationValidity.valid}
-    use:justificationValidate={application.justification}
+    use:justificationValidate={app.justification}
   />
   {#if $justificationValidity.dirty && !$justificationValidity.valid}
     <p class='validation-hint'>
@@ -80,10 +80,10 @@ function submitApplication(email, password) {
     type='text'
     id='qualifications'
     name='qualifications'
-    bind:value={application.qualifications} 
+    bind:value={app.qualifications} 
     class:field-danger={!$qualificationsValidity.valid}
     class:field-success={$qualificationsValidity.valid}
-    use:qualificationsValidate={application.qualifications}
+    use:qualificationsValidate={app.qualifications}
   />
   {#if $qualificationsValidity.dirty && !$qualificationsValidity.valid}
     <p class='validation-hint'>

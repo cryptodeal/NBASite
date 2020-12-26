@@ -126,7 +126,7 @@ export function listArticles(){
 }
 
 export function listArticles2(page){
-  return Post.paginate({}, {page: page, populate: 'categories author', sort: '-publishedDate', limit: 4})
+  return Post.paginate({}, {page: page, populate: 'categories author', sort: '-publishedDate', limit: 5})
 }
 
 export function listContributors(){

@@ -15,6 +15,7 @@
 
 <script>
   import dayjs from 'dayjs'
+  import 'quill/dist/quill.snow.css'
 	export let post;
 </script>
 
