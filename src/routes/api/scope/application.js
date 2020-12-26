@@ -12,6 +12,7 @@ export function post(req, res){
       console.log(`Saving scope application to database: \n${req.body.app} `)
       //This if statement is causing errors when attempting to update or create a new application
       if(req.body.app._id !== undefined){
+        req.body.app.state = 'pending review'
         updateScopeApp(req.body.app).then(savedApp => {
           if(!savedApp){
             console.log('Could not save application')

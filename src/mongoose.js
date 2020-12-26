@@ -50,6 +50,7 @@ export async function createToken(user){
     email:  user.email,
     username: user.username,
     //hard coding scope until admin panel allows scope to be set
+    //scope: [ user.scope ],
     scope: [ 'admin' ],
     id: user._id,
     iss: 'http://127.0.0.1:3000/'
@@ -158,11 +159,11 @@ export function listUsers(){
   return User.find({}).exec()
 }
 
-export function updateUser(id, updated) {
+export function updateUser(id, updated){
   return User.findByIdAndUpdate(id, {$set: updated}, {new: true}).exec()
 }
 
-export function updateCat(id, updated) {
+export function updateCat(id, updated){
   return Category.findByIdAndUpdate(id, {$set: updated}, {new: true}).exec()
 }
 
@@ -196,4 +197,8 @@ export function listApps() {
 export function saveAppReview(id, feedback){
   console.log(feedback)
   return ScopeApp.findByIdAndUpdate(id, {$set: feedback}, {new: true}).exec()
+}
+
+export function updateUserScope(id, scope){
+  return User.findByIdAndUpdate(id, {'scope': scope}, {new: true}).exec()
 }

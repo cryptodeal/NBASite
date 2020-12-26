@@ -12,7 +12,7 @@
     user: profile.id,
     justification: null,
     qualifications: null,
-    scope: 'contributor'
+    scope: 'admin'
   }
 
 

@@ -1,4 +1,4 @@
-import { verifyToken, listApps, saveAppReview } from '../../../mongoose'
+import { verifyToken, listApps, saveAppReview, updateUserScope } from '../../../mongoose'
 
 export function get(req, res) {
   //need to enable verifyToken on router level, but I suspect this is unnecessary since route guards are in place
@@ -37,8 +37,17 @@ export function post(req, res){
             res.end();
           } else{
             console.log(`app review submitted; app updated successfully: ${reviewedApp}`)
-            res.statusCode = 201
-            res.end()
+            //update user w new permissions here if the reviewedApp is 'approved'
+            if(reviewedApp.state === 'approved'){
+              updateUserScope(reviewedApp.user, reviewedApp.scope).then(updatedUser => {
+                console.log(`User permissions updated: ${updatedUser.scope}`)
+                res.statusCode = 201
+                res.end()
+              })
+            } else{
+              res.statusCode = 201
+              res.end()
+            }
           }
         }).catch(err => {
           console.log(err)
