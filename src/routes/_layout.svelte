@@ -32,7 +32,15 @@
     margin: 0 auto;
     box-sizing: border-box;
   }
-
+  :global(.ql-align-center) {
+    text-align: center;
+  }
+  :global(.ql-align-justify) {
+    text-align: justify;
+  }
+  :global(.ql-align-right) {
+    text-align: right;
+  }
   .logo-container {
 		width: 100vw;
 	  will-change: transform;

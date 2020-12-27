@@ -12,6 +12,7 @@
 		}
 	}
 </script>
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
 <script>
   import dayjs from 'dayjs'
