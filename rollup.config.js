@@ -31,14 +31,15 @@ export default {
       }),
       json(),
 			svelte({
-				dev,
-				hydratable: true,
-        emitCss: true,
+				compilerOptions: {
+					dev,
+					hydratable: true,
+				},
         preprocess: image({
 					placeholder: 'blur',
 					sizes: [650, 800, 1050, 1400, 1650, 1950],
           breakpoints: [640, 768, 1024, 1366, 1600, 1920]
-				}),
+				})
 			}),
 			url({
 				sourceDir: path.resolve(__dirname, 'src/node_modules/images'),
@@ -86,9 +87,12 @@ export default {
       }),
       json(),
 			svelte({
-				generate: 'ssr',
-				hydratable: true,
-				dev
+				compilerOptions: {
+					dev,
+					generate: 'ssr',
+					hydratable: true
+				},
+				emitCss: false
 			}),
 			url({
 				sourceDir: path.resolve(__dirname, 'src/node_modules/images'),
