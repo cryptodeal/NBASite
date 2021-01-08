@@ -1,5 +1,6 @@
 import sirv from 'sirv';
 import polka from 'polka';
+import nanoexpress from 'nanoexpress';
 import compression from 'compression';
 import * as sapper from '@sapper/server';
 import cookieParser from 'cookie-parser'
@@ -16,7 +17,8 @@ export let signingKey = secureRandom(256, {type: 'Buffer'});
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
 
-polka()
+let app = nanoexpress();
+polka({app})
   .use(
     compression({ threshold: 0 }),
     sirv('static', { dev }),

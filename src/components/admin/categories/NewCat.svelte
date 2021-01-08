@@ -55,7 +55,7 @@
 		color: red;
 	}
 </style>
-<label htmlFor='category-name'><h3>Category Name:</h3>
+<label for='category-name'><h3>Category Name:</h3>
   <input
     type="text"
     bind:value={name}

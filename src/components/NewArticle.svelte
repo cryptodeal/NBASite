@@ -57,7 +57,7 @@
 		color: red;
 	}
 </style>
-<label htmlFor='title'><h3>Article Title:</h3>
+<label for='title'><h3>Article Title:</h3>
   <input
     type="text"
     bind:value={title}
