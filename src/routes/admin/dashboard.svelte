@@ -10,8 +10,10 @@
     const file = e.target.files[0]
     const fd = new FormData();
     fd.append('sampleFile', file);
-    return fetch('api/content/images/picture', {
+    return fetch('http://localhost:8000/api/content/images/picture', {
       method: 'POST',
+      mode: 'cors',
+      credentials: 'include',
       body: fd
     }).then(res => {
       return res.status === 400 ? notifier.danger(`File not sent in upload`)

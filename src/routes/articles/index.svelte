@@ -1,24 +1,45 @@
+<script context="module">
+	export async function preload({ params, query }) {
+		// the `slug` parameter is available because
+		// this file is called [slug].svelte
+		const res = await this.fetch(`http://localhost:8000/api/articles?pg=1`, {
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'include',
+    });
+		const data = await res.json();
+
+		if (res.status === 200) {
+			return { newBatch: data };
+		} else {
+			this.error(res.status, data.message);
+		}
+	}
+</script>
 <script>
   import { onMount } from "svelte";
-  //import SvelteInfiniteScroll from "svelte-infinite-scroll";
-  import InfiniteScroll from "../../components/InfiniteScroll.svelte";
+  import InfiniteScroll from "svelte-infinite-scroll";
   import dayjs from 'dayjs'
   let page = 1;
   // store all the data here.
 	let data = [];
 	// store the new batch of data here.
-  let newBatch = [];
+  export let newBatch = [];
   
   async function fetchData() {
-		const response = await fetch(`api/articles/${page}.json`);
+		const response = await fetch(`http://localhost:8000/api/articles?pg=${page}`, {
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'include',
+      });
 		newBatch = await response.json();
 		console.log(newBatch)
   };
   
-	onMount(()=> {
+	//onMount(()=> {
 		// load first batch onMount
-		fetchData();
-	})
+	//	fetchData();
+	//})
 
   $: data = [
 		...data,
@@ -46,7 +67,7 @@
 <h1>All Articles</h1>
   <ul>
     {#each data as post}
-      <h2><a rel='prefetch' href='articles/{post.slug}'>{post.title}</a></h2>
+      <h2><a sapper:prefetch href='articles/{post.slug}'>{post.title}</a></h2>
       <p style='text-muted'>Published
         {#if post.date}
           on {dayjs(post.date).format('MMM. D, YYYY')} 

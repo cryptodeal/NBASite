@@ -1,6 +1,6 @@
 <script context="module">
   export async function preload (page, session) {
-    await this.fetch('/api/session', {
+    await this.fetch('http://localhost:8000/api/session', {
       method: 'DELETE',
       mode: 'cors',
       credentials: 'include',

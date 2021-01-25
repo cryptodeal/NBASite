@@ -2,7 +2,11 @@
 	export async function preload({ params, query }) {
 		// the `slug` parameter is available because
     // this file is called [slug].svelte
-    return this.fetch(`admin/articles/edit/${params.slug}.json`).then(r => r.json()).then(data => {
+    return this.fetch(`http://localhost:8000/api/admin/articles/edit/${params.slug}`, {
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'include'
+    }).then(r => r.json()).then(data => {
 			return { article: data.article[0], contributors: data.contributors, categories: data.categories };
 		});
 	}
@@ -21,7 +25,7 @@
   import 'quill/dist/quill.snow.css'
   import Datepicker from 'svelte-calendar'
   import Sidebar from '../../../../components/admin/Sidebar.svelte'
-  let values = {
+  let updatedArticle = {
     content: {},
   }
   const { session } = stores()
@@ -29,13 +33,11 @@
   let quill;
   let _id = article._id
   let n;
-  //console.log(id)
-  let brief = ''
-  if (article.content.brief) values.content.brief = article.content.brief
+  article.content.brief ? updatedArticle.content.brief = article.content.brief : updatedArticle.content.brief = '';
   let editor;
   let stateOptions = ['draft', 'published', 'archived']
-  values.state = article.state;
-  values.title = article.title;
+  updatedArticle.state = article.state;
+  updatedArticle.title = article.title;
   const today = new Date();
   let start = new Date();
   let dateFormat = '#{m}-#{d}-#{Y}';
@@ -44,30 +46,30 @@
   let selectedDate
   let dateChosen
   let isDateChosen
-  if (article.publishedDate || values.publishedDate){
+  if (article.publishedDate || updatedArticle.publishedDate){
     let date = {
       month: article.publishedDate.slice(5,7),
       day: article.publishedDate.slice(8,10),
       year: article.publishedDate.slice(0,4)
     }
-    values.publishedDate = `${date.month}-${date.day}-${date.year}`
+    updatedArticle.publishedDate = `${date.month}-${date.day}-${date.year}`
     selectedDate = new Date(parseInt(date.year, 10), parseInt(date.month, 10)-1, parseInt(date.day, 10))
     isDateChosen = true;
   } else {
     isDateChosen = false;
   }
 
-  values.author = []
-  values.categories = []
+  updatedArticle.author = []
+  updatedArticle.categories = []
   article.author.map(auth => {
-    values.author.push({value: auth._id, label: auth.email})
+    updatedArticle.author.push({value: auth._id, label: auth.email})
   })
   article.categories.map(cat => {
-    values.categories.push({value: cat._id, label: cat.name})
+    updatedArticle.categories.push({value: cat._id, label: cat.name})
   })
 
   function apiPostNewsImage(fd) {
-    return fetch('api/content/images/picture', {
+    return fetch('http://localhost:8000/api/content/images/picture', {
       method: 'POST',
       body: fd
     }).then(res => res.json())
@@ -241,12 +243,12 @@
   })
 
   async function saveArticle() {
-    console.log(values.publishedDate)
-    values.content.extended = quill.root.innerHTML
-    if (values.state) values.state = values.state.value
+    console.log(updatedArticle.publishedDate)
+    updatedArticle.content.extended = quill.root.innerHTML
+    if (updatedArticle.state) updatedArticle.state = updatedArticle.state.value
     let id = {_id: _id}
-    console.log(values)
-    return fetch(`api/content/articles`, {
+    console.log(updatedArticle)
+    return fetch(`http://localhost:8000/api/content/articles`, {
       method: "POST",
       mode: 'cors',
       credentials: 'include',
@@ -254,8 +256,8 @@
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        article: values,
-        id: id
+        updatedArticle,
+        id
       })
     }).then(res => {
       if(res.status === 409){
@@ -282,7 +284,7 @@
     window.location.href= `admin/articles` 
   };
   function printDate(){
-    console.log(values.publishedDate)
+    console.log(updatedArticle.publishedDate)
   }
   function upload (e){
     const file = e.target.files[0]
@@ -389,7 +391,7 @@
           Title:
         </Grid>
         <Grid xs={12} md={10} lg={11}>
-          <input type="text" bind:value={values.title} />
+          <input type="text" bind:value={updatedArticle.title} />
         </Grid>
       </Grid>
       <br/>
@@ -407,11 +409,11 @@
           State:
         </Grid>
         <Grid xs={12} md={10} lg={11}>
-          <Select items={stateOptions} bind:selectedValue={values.state} inputStyles="box-sizing: border-box;"></Select>
+          <Select items={stateOptions} bind:selectedValue={updatedArticle.state} inputStyles="box-sizing: border-box;"></Select>
         </Grid>
       </Grid>
       <br/>
-      {#if values.state.value == 'published'}
+      {#if updatedArticle.state.value == 'published'}
         <Grid container gutter={12}>
           <Grid xs={12} md={2} lg={1}>
             Published Date:
@@ -419,7 +421,7 @@
           <Grid xs={12} md={10} lg={11}>
             <Datepicker
             format={dateFormat}
-            bind:formattedSelected={values.publishedDate}
+            bind:formattedSelected={updatedArticle.publishedDate}
             bind:selected={selectedDate}
             bind:dateChosen={isDateChosen}
             highlightColor='#d74e4d'
@@ -429,7 +431,7 @@
             dayHighlightedTextColor='#fff'
             >
               <button class='custom-button' on:click={printDate}>
-                {#if isDateChosen} Chosen: {values.publishedDate} {:else} Pick a date {/if}
+                {#if isDateChosen} Chosen: {updatedArticle.publishedDate} {:else} Pick a date {/if}
               </button>
             </Datepicker>
           </Grid>
@@ -441,7 +443,7 @@
           Authors:
         </Grid>
         <Grid xs={12} md={10} lg={11}>
-          <Select items={contributors} isMulti={true} bind:selectedValue={values.author}></Select>
+          <Select items={contributors} isMulti={true} bind:selectedValue={updatedArticle.author}></Select>
         </Grid>
       </Grid>
       <br/>
@@ -450,7 +452,7 @@
           Categories:
         </Grid>
         <Grid xs={12} md={10} lg={11}>
-          <Select items={categories} isMulti={true} bind:selectedValue={values.categories}></Select>
+          <Select items={categories} isMulti={true} bind:selectedValue={updatedArticle.categories}></Select>
         </Grid>
       </Grid>
       <br/>
@@ -461,8 +463,8 @@
         <Grid xs={12} md={10} lg={11}>
           <form>
             <TextArea 
-              bind:value={values.content.brief}  
-              minRows={2}
+              bind:value={updatedArticle.content.brief}  
+              minRows={4}
               maxRows={10}
             />
           </form>

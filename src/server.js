@@ -1,36 +1,31 @@
 import sirv from 'sirv';
 import polka from 'polka';
-import nanoexpress from 'nanoexpress';
 import compression from 'compression';
 import * as sapper from '@sapper/server';
 import cookieParser from 'cookie-parser'
 import jwt from 'jsonwebtoken'
-import mongoSanitize from 'express-mongo-sanitize'
-const { json } = require('body-parser');
-const fileUpload = require('express-fileupload');
-const secureRandom = require('secure-random');
-import { routerVerify } from './mongoose'
+//import { routerVerify } from './utils'
 import { guard } from '@beyonk/sapper-rbac'
 import routes from './config/routes.js'
-export let signingKey = secureRandom(256, {type: 'Buffer'});
+//export let signingKey = secureRandom(256, {type: 'Buffer'});
 
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
 
-let app = nanoexpress();
-polka({app})
+polka()
   .use(
     compression({ threshold: 0 }),
     sirv('static', { dev }),
     cookieParser(),
-    json(),
-    mongoSanitize(),
-    fileUpload(),
+    //json(),
+    //mongoSanitize(),
+    //fileUpload(),
 
     (req, res, next) => {
-      const token = req.cookies['authToken']
+      const {authToken} = req.cookies;
+      //console.log(authToken)
       //const profile = token ? routerVerify(token) : false
-      const profile = token ? jwt.decode(token) : false
+      const profile = authToken ? jwt.decode(authToken) : false
       //console.log(profile)
       const options = {
         routes,

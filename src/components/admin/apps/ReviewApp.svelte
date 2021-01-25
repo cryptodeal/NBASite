@@ -8,13 +8,14 @@
   export let state;
   export let justification;
   export let qualifications;
+  export let feedback;
   //export let dateSubmitted;
   //export let dateRevised;
   export let _id;
   let updated = {
     state: state,
-    feedback: ''
   }
+  feedback !== null ? updated.feedback = feedback : updated.feedback = '';
   let id = {_id: _id}
 
   let n;
@@ -23,7 +24,7 @@
 		close();
   }
   function saveAppReview(){
-    return fetch(`admin/apps.json`, {
+    return fetch(`http://localhost:8000/api/admin/apps`, {
       method: "POST",
       mode: 'cors',
       credentials: 'include',

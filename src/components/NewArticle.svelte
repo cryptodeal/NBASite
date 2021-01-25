@@ -16,7 +16,7 @@
   }
   let title = null;
   function initArticle() {
-    return fetch(`admin/articles.json`, {
+    return fetch(`http://localhost:8000/api/admin/articles`, {
       method: "POST",
       mode: 'cors',
       credentials: 'include',

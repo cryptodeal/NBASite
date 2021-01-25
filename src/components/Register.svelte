@@ -13,8 +13,8 @@
   let password = null;
   let username = null;
 
-  function register (email, password) {
-    return fetch('api/signup', {
+  function register (email, pwd, username) {
+    fetch('http://localhost:8000/api/signup', {
       method: 'POST',
       mode: 'cors',
       credentials: 'include',
@@ -23,7 +23,7 @@
       },
       body: JSON.stringify({
         email,
-        password,
+        pwd,
         username
       })
     }).then(res => {
@@ -58,7 +58,7 @@
 </style>
 
 <NotificationDisplay bind:this={n} />
-<form on:submit|preventDefault={register(email, password)}>
+<form on:submit|preventDefault={register(email, password, username)}>
   <label for='username'>Username</label>
     <input class='input'
       type='text'

@@ -10,18 +10,17 @@
   let email = null;
   let password = null;
 
-function login (email, password) {
-    fetch('api/session', {
+function login (email, pwd) {
+    fetch('http://localhost:8000/api/session', {
       method: 'POST',
-      //referrerPolicy: 'no-referrer-when-downgrade',
-      mode: 'same-origin',
+      mode: 'cors',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
       },
-      credentials: 'include',
       body: JSON.stringify({
         email,
-        password
+        pwd
       })
     }).then(res => {
       if(res.status === 401){

@@ -2,7 +2,14 @@
 	export async function preload({ params, query }) {
 		// the `slug` parameter is available because
     // this file is called [slug].svelte
-    return this.fetch(`admin/users.json`).then(r => r.json()).then(items => {
+    return this.fetch(`http://localhost:8000/api/admin/users`, {
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'include',
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(r => r.json()).then(items => {
 			return { items };
 		});
 	}

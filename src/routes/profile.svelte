@@ -1,6 +1,10 @@
 <script context="module">
   export async function preload (page, session) {
-    const res = await this.fetch(`/profile.json`);
+    const res = await this.fetch(`http://localhost:8000/api/user/profile`, {
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'include'
+    });
 		const data = await res.json();
 
 		if (res.status === 200) {
@@ -36,7 +40,7 @@
     edit = !edit;
   }
   function saveProfile(){
-    return fetch(`profile.json`, {
+    return fetch(`http://localhost:8000/api/user/profile`, {
       method: "POST",
       mode: 'cors',
       credentials: 'include',

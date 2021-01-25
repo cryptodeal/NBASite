@@ -2,7 +2,11 @@
 	export async function preload({ params, query }) {
 		// the `slug` parameter is available because
 		// this file is called [slug].svelte
-		const res = await this.fetch(`articles/${params.slug}.json`);
+		const res = await this.fetch(`http://localhost:8000/api/articles/${params.slug}`, {
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'include',
+    });
 		const data = await res.json();
 
 		if (res.status === 200) {

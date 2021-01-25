@@ -8,6 +8,7 @@
   export let qualifications;
   export let dateSubmitted;
   export let dateRevised;
+  export let feedback;
   export let _id;
   //export let showEditUserModal = false;
   import { getContext } from 'svelte';
@@ -21,7 +22,7 @@
   const { open } = getContext('simple-modal');
 
   const showReviewApp = () => {
-    open(ReviewApp, {_id: _id, user: user, scope: scope, state: state, justification: justification, qualifications: qualifications, dateSubmitted: dateSubmitted, dateRevised: dateRevised});
+    open(ReviewApp, {_id: _id, user: user, scope: scope, state: state, justification: justification, qualifications: qualifications, dateSubmitted: dateSubmitted, dateRevised: dateRevised, feedback: feedback});
   };
 </script>
 <style>

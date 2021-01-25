@@ -16,8 +16,8 @@
   }
   let name = null;
   function addCategory() {
-    return fetch(`admin/categories.json`, {
-      method: "POST",
+    return fetch(`http://localhost:8000/api/admin/categories`, {
+      method: 'POST',
       mode: 'cors',
       credentials: 'include',
       headers: {

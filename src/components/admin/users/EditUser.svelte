@@ -21,7 +21,7 @@
 		close();
   }
   function updateUser(){
-    return fetch(`admin/users.json`, {
+    return fetch(`http://localhost:8000/api/admin/users`, {
       method: "POST",
       mode: 'cors',
       credentials: 'include',
@@ -29,8 +29,8 @@
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        id: id,
-        updated: updated
+        id,
+        updated
       })
     }).then(res => {
       return res.status === 401 ? notifier.danger(`Authentication expired`)

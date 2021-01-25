@@ -1,6 +1,10 @@
 <script context="module">
     export function preload({ params, query }) {
-		return this.fetch(`admin/categories.json`).then(r => r.json()).then(categories => {
+		return this.fetch(`http://localhost:8000/api/admin/categories`, {
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'include'
+    }).then(r => r.json()).then(categories => {
 			return { categories };
 		});
 	}

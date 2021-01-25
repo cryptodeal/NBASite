@@ -20,7 +20,7 @@
   let updated = {}
   if (name !== undefined && name !== null && name !== '') updated.name = name
   function updateCategory() {
-    return fetch(`admin/categories.json`, {
+    return fetch(`http://localhost:8000/api/admin/categories`, {
       method: "POST",
       mode: 'cors',
       credentials: 'include',

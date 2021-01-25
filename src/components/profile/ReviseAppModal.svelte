@@ -12,14 +12,13 @@
 
 function submitApplication(email, password) {
   console.log(JSON.stringify(app))
-    fetch('api/scope/application', {
-      method: 'POST',
-      //referrerPolicy: 'no-referrer-when-downgrade',
-      mode: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+    fetch('http://localhost:8000/api/user/scope/app', {
+      method: "POST",
+      mode: 'cors',
       credentials: 'include',
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({
         app
       })
