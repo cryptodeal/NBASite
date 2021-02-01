@@ -36,11 +36,13 @@ nanoexpress()
   .use(corsConfigured)
   .ws('/ws', async (req, res) => {
     console.log('Connecting...');
-
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    //console.log(`${req.hasCookie(authToken)}`)
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     res.on('connection', (ws) => {
       console.log('Connected');
+      //console.log(ws)
+      ws.send('messages :)))')
 
       ws.on('message', (msg) => {
         // eslint-disable-next-line security-node/detect-crlf

@@ -1,5 +1,6 @@
 <script>
   import { goto, stores } from '@sapper/app'
+  import {messages} from '../../components/user/store.js'
   import Sidebar from '../../components/admin/Sidebar.svelte'
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
   let n;
@@ -71,6 +72,12 @@
     <div class="column2">
       <h1>Admin Dashboard</h1>
       <input on:change={upload} type='file' >
+      {#if $messages}
+        <p>{JSON.stringify($messages)}</p>
+      {:else}
+          <p>no messages, this is testing websocket and svelte readable store (realtime data for nba site :))))))</p>
+      {/if}
+
     </div>
   </div>
 </main>

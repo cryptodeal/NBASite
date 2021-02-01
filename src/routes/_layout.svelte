@@ -4,7 +4,7 @@
  
   import routes from "../config/routes.js";
   import { guard } from "@beyonk/sapper-rbac";
-  import { tick } from "svelte";
+  import { tick, onMount } from "svelte";
   import { stores, goto } from "@sapper/app";
   
   const { page, session } = stores();
