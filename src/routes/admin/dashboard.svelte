@@ -1,8 +1,14 @@
 <script>
   import { goto, stores } from '@sapper/app'
-  import {messages} from '../../components/user/store.js'
+  import { onMount } from 'svelte';
+  //import messageStore from '../../components/user/store.js'
+  //import store from '../../components/user/teststore.js';
+  import Message from '../../components/user/message.svelte';
   import Sidebar from '../../components/admin/Sidebar.svelte'
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
+  let store;
+  let message;
+	let messages = [];
   let n;
   let sidebar_show = false;
   //TODO: figure out best way to import css from node module for the editor, which is created onMount
@@ -22,6 +28,21 @@
       : notifier.success(`Upload successful`)
     });
   }
+  onMount(async () => {
+    const module = await import('../../components/user/teststore.js')
+    store = await module.default;
+		store.subscribe(currentMessage => {
+				messages = [...messages, currentMessage];
+    }) 
+  })
+  function onSendMessage() {
+    if (message.length > 0) {
+      store.sendMessage(message);
+      message = "";
+    }
+	
+  }
+
 </script>
 <style>
   * {
@@ -72,11 +93,15 @@
     <div class="column2">
       <h1>Admin Dashboard</h1>
       <input on:change={upload} type='file' >
-      {#if $messages}
-        <p>{JSON.stringify($messages)}</p>
-      {:else}
-          <p>no messages, this is testing websocket and svelte readable store (realtime data for nba site :))))))</p>
-      {/if}
+  {#if process.browser}
+      <input type="text" bind:value={message} />
+      <button on:click={onSendMessage}>
+        Send Message
+      </button>
+      {#each messages as message, i}
+          <Message {message} direction={i % 2 == 0 ? "left" :  "right" } />
+      {/each}
+  {/if}
 
     </div>
   </div>

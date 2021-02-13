@@ -93,7 +93,7 @@ exports.saveArticle = async (id, body) => {
       body.categories.map(cat => categories.push(cat.value))
     }
     body.categories = categories
-    let article = new Post (body)
+    let article = new Post(body)
     return article.save()
   } else {
     let authors = [];

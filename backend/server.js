@@ -34,20 +34,21 @@ const corsConfigured = cors({
 
 nanoexpress()
   .use(corsConfigured)
-  .ws('/ws', async (req, res) => {
+  .ws('/ws', {idleTimeout: 10}, async (req, res) => {
+
     console.log('Connecting...');
     //console.log(`${req.hasCookie(authToken)}`)
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     res.on('connection', (ws) => {
       console.log('Connected');
-      //console.log(ws)
-      ws.send('messages :)))')
+      console.log(ws)
+      //ws.send('messages :)))')
 
       ws.on('message', (msg) => {
         // eslint-disable-next-line security-node/detect-crlf
-        console.log('Message received', msg);
-        ws.send(msg);
+
+        ws.send(msg)
       });
       ws.on('close', (code, message) => {
         // eslint-disable-next-line security-node/detect-crlf
