@@ -1,4 +1,4 @@
-const { validateUser, createToken } = require('../utils/mongoose');
+const { validateUser, createToken } = require('../../utils/mongoose');
 
 exports.login = (req, res) => {
   const {email, pwd} = req.body

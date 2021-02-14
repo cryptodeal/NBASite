@@ -15,8 +15,7 @@ exports.adminPostCat = (req, res) => {
       console.log(err)
       res.status(401)
       res.send(err)
-      }
-    else {
+      } else {
       //console.log(verifiedJwt)
       //console.log(`category id to modify: ${JSON.stringify(req.body.id)}`)
       const {id, updated} = req.body;

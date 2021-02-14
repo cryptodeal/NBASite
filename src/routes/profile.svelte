@@ -31,7 +31,6 @@
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
   let n;
   let edit = false;
-  let id = profile.id
   let user = {
     username: profile.username,
     email: profile.email
@@ -58,6 +57,7 @@
       : window.location.href = `/profile`
     })
   }
+
 </script>
 <style>
 table {

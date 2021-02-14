@@ -2,6 +2,7 @@ dependencies:
   '@nanoexpress/middleware-body-parser': 1.0.3
   aws-sdk: 2.843.0
   bcrypt: 5.0.0
+  cookie: 0.4.1
   cors: 2.8.5
   dotenv: 8.2.0
   express-fileupload: 1.2.1
@@ -3348,6 +3349,7 @@ specifiers:
   '@nanoexpress/middleware-body-parser': ^1.0.3
   aws-sdk: ^2.843.0
   bcrypt: ^5.0.0
+  cookie: ^0.4.1
   cors: ^2.8.5
   dotenv: ^8.2.0
   express-fileupload: ^1.2.1

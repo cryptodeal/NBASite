@@ -1,4 +1,4 @@
-const { createUser, createToken } = require('../utils/mongoose');
+const { createUser, createToken } = require('../../utils/mongoose');
 
 exports.signUp = async (req, res) => {
   //REMOVE CONSOLE.LOG EMAIL AND PASSWORD BEFORE DEPLOYING TO PRODUCTION

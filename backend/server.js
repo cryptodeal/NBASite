@@ -4,13 +4,16 @@ const nanoexpress = require('nanoexpress');
 const bodyParser = require('@nanoexpress/middleware-body-parser/cjs');
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
+const cookie = require('cookie')
+
 
 //TODO - MIDDLEWARE:
 //1 - mongoSanitize()
 
+
 //ROUTE IMPORTS
-const {login, logout} = require('./api/session');
-const {signUp} = require('./api/signup');
+const {login, logout} = require('./api/auth/session');
+const {signUp} = require('./api/auth/signup');
 const {loadArticles} = require ('./api/articles/index');
 const {loadArticle} = require('./api/articles/:slug');
 const {getProfile, postProfile} = require('./api/user/profile');
@@ -23,7 +26,7 @@ const {adminGetArticles, adminPostArticles} = require('./api/admin/articles/inde
 const {adminGetArticleSlug} = require('./api/admin/articles/edit/:slug');
 const {contentPostPic} = require('./api/content/images/picture');
 const {contentPostArticlePic} = require('./api/content/images/article-image');
-
+const {getTicket} = require('./api/auth/ws/ticket')
 
 const corsConfigured = cors({
   origin: 'http://localhost:3000',
@@ -35,15 +38,23 @@ const corsConfigured = cors({
 nanoexpress()
   .use(corsConfigured)
   .ws('/ws', {idleTimeout: 10}, async (req, res) => {
+    if(req.headers['sec-websocket-protocol'] !== `ThisIsATestTicket`){
 
+    }
+    console.log(req.headers['sec-websocket-protocol'])
     console.log('Connecting...');
-    //console.log(`${req.hasCookie(authToken)}`)
+    //console.log(req)
+    //await console.log(`${req.hasCookie(authToken)}`)
+
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     res.on('connection', (ws) => {
       console.log('Connected');
-      console.log(ws)
-      //ws.send('messages :)))')
+      //console.log(ws)
+      ws.send('Congrats, you connected!')
+      setTimeout(() => {
+        ws.ping()
+      }, 5000);
 
       ws.on('message', (msg) => {
         // eslint-disable-next-line security-node/detect-crlf
@@ -84,6 +95,7 @@ nanoexpress()
   .post('/api/admin/articles', adminPostArticles)
   .get('/api/admin/articles/edit/:slug', adminGetArticleSlug)
   .post('/api/content/images/picture', contentPostPic)
+  .get('/api/auth/ws', getTicket)
 
   //TODO ROUTES:
 

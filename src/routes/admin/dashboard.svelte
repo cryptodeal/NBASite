@@ -1,8 +1,6 @@
 <script>
   import { goto, stores } from '@sapper/app'
   import { onMount } from 'svelte';
-  //import messageStore from '../../components/user/store.js'
-  //import store from '../../components/user/teststore.js';
   import Message from '../../components/user/message.svelte';
   import Sidebar from '../../components/admin/Sidebar.svelte'
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
@@ -29,7 +27,7 @@
     });
   }
   onMount(async () => {
-    const module = await import('../../components/user/teststore.js')
+    const module = await import('../../components/user/store.js')
     store = await module.default;
 		store.subscribe(currentMessage => {
 				messages = [...messages, currentMessage];
