@@ -50,15 +50,10 @@ nanoexpress()
 
     res.on('connection', (ws) => {
       console.log('Connected');
-      //console.log(ws)
-      ws.send('Congrats, you connected!')
-      setTimeout(() => {
-        ws.ping()
-      }, 5000);
+      //console.log(ws) 
 
       ws.on('message', (msg) => {
         // eslint-disable-next-line security-node/detect-crlf
-
         ws.send(msg)
       });
       ws.on('close', (code, message) => {

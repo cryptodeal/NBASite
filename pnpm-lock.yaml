@@ -3,6 +3,7 @@ dependencies:
   polka: 1.0.0-next.11
   quill: 1.3.7
   sirv: 1.0.11
+  svelte-websocket-store: 1.1.2
 devDependencies:
   '@babel/core': 7.12.16
   '@babel/plugin-syntax-dynamic-import': 7.8.3_@babel+core@7.12.16
@@ -2910,7 +2911,7 @@ packages:
     dev: true
     resolution:
       integrity: sha512-V9hI7UMJyEhNZjM8CbZaP/804ZRLgzWkCS9OOYnEZkszzj3zKR/erRdj0uFMcN3pp6x4B+AIZebmkQgGRinG/g==
-  /prebuild-install/6.0.0:
+  /prebuild-install/6.0.1:
     dependencies:
       detect-libc: 1.0.3
       expand-template: 2.0.3
@@ -2932,7 +2933,7 @@ packages:
       node: '>=6'
     hasBin: true
     resolution:
-      integrity: sha512-h2ZJ1PXHKWZpp1caLw0oX9sagVpL2YTk+ZwInQbQ3QqNd4J03O6MpFNmMTJlkfgPENWqe5kP0WjQLqz5OjLfsw==
+      integrity: sha512-7GOJrLuow8yeiyv75rmvZyeMGzl8mdEX5gY69d6a6bHWmiPevwqFw+tQavhK0EYMaSg3/KD24cWqeQv1EWsqDQ==
   /process-nextick-args/2.0.1:
     dev: true
     resolution:
@@ -3212,7 +3213,7 @@ packages:
       detect-libc: 1.0.3
       node-addon-api: 3.1.0
       npmlog: 4.1.2
-      prebuild-install: 6.0.0
+      prebuild-install: 6.0.1
       semver: 7.3.4
       simple-get: 4.0.0
       tar-fs: 2.1.1
@@ -3460,6 +3461,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-UEqoXZjJeKj2sWlAIsBOFjxjMn+KP8aFCc/zjdmZi1cCOE59z6T2C+I6ZaAf8EmNQqNzfZVB/Lci4Ci9spzXAw==
+  /svelte-websocket-store/1.1.2:
+    dev: false
+    resolution:
+      integrity: sha512-E6rleZDGszm3uJXWc5da7dCy1X151nvoL19LXeTfJE5o0m+TdZGNH8q00HzGOdWkYlj+zF/1hYP1IsL9zCf1rA==
   /svelte/3.32.3:
     dev: true
     engines:
@@ -3737,3 +3742,4 @@ specifiers:
   svelte-infinite-scroll: ^1.5.2
   svelte-select: ^3.16.1
   svelte-simple-modal: ^0.8.1
+  svelte-websocket-store: ^1.1.2

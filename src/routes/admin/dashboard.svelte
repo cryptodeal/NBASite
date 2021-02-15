@@ -4,11 +4,12 @@
   import Message from '../../components/user/message.svelte';
   import Sidebar from '../../components/admin/Sidebar.svelte'
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
-  let store;
+  let myStore;
   let message;
 	let messages = [];
   let n;
   let sidebar_show = false;
+  const initialValue = {content: 'Initial message'};
   //TODO: figure out best way to import css from node module for the editor, which is created onMount
   const { session } = stores()
   function upload (e){
@@ -27,26 +28,32 @@
     });
   }
   onMount(async () => {
-    const module = await import('../../components/user/store.js')
-    store = await module.default;
-		store.subscribe(currentMessage => {
-				messages = [...messages, currentMessage];
-    }) 
+    let res = await fetch(`http://localhost:8000/api/auth/ws`, {
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'include'
+    });
+    let data = await res.json()
+    const { default: websocketStore } = await import('svelte-websocket-store')
+    myStore = await websocketStore('ws://localhost:8000/ws', initialValue, [data.ticket]);
   })
-  function onSendMessage() {
-    if (message.length > 0) {
-      store.sendMessage(message);
-      message = "";
-    }
-	
+  //$: console.log($myStore)
+  function addResponse(){
+    messages = [...messages, $myStore]
   }
-
+  $: $myStore == null ? console.log(`nothing to add to messages`) : addResponse()
+  function onSendMessage(){
+      if (message.length > 0) {
+        console.log(message)
+        $myStore = { content: message };
+        message = "";
+      }
+    }
 </script>
 <style>
   * {
     box-sizing: border-box;
   }
-
   .row {
     display: flex;
   }
@@ -91,7 +98,6 @@
     <div class="column2">
       <h1>Admin Dashboard</h1>
       <input on:change={upload} type='file' >
-  {#if process.browser}
       <input type="text" bind:value={message} />
       <button on:click={onSendMessage}>
         Send Message
@@ -99,8 +105,6 @@
       {#each messages as message, i}
           <Message {message} direction={i % 2 == 0 ? "left" :  "right" } />
       {/each}
-  {/if}
-
     </div>
   </div>
 </main>

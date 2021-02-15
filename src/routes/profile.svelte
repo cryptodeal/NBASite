@@ -17,7 +17,6 @@
         profile: session.profile
       }
 		}
-    
   }
 </script>
 
