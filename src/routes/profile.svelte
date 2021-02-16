@@ -1,16 +1,24 @@
 <script context="module">
   export async function preload (page, session) {
-    const res = await this.fetch(`http://localhost:8000/api/user/profile`, {
+    const profileRes = await this.fetch(`http://localhost:8000/api/user/profile`, {
       method: 'GET',
       mode: 'cors',
       credentials: 'include'
     });
-		const data = await res.json();
-
-		if (res.status === 200) {
+    //const ticketRes = await this.fetch(`http://localhost:8000/api/auth/ws`, {
+    //  method: 'GET',
+    //  mode: 'cors',
+    //  credentials: 'include'
+    //});
+		const parsedProfileRes = await profileRes.json();
+    //const parsedTicketRes = await ticketRes.json();
+    
+		//if (profileRes.status === 200 && ticketRes.status === 201) {
+    if (profileRes.status === 200) {
 			return { 
         profile: session.profile,
-        apps: data
+        apps: parsedProfileRes,
+        //wsTicketRes: parsedTicketRes
         }
 		} else {
       return {
@@ -23,17 +31,39 @@
 <script>
   export let profile
   export let apps
+  //export let wsTicketRes
   import Modal from 'svelte-simple-modal'
+  import {onMount} from 'svelte';
   import dayjs from 'dayjs'
   import ScopeContent from '../components/profile/ScopeContent.svelte'
   import ReviseAppContent from '../components/profile/ReviseAppContent.svelte'
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
+  import Sockette from 'sockette'
+  //import {createSocket} from '../components/ws/utils'
+  let ws;
+  let wsTest
   let n;
   let edit = false;
   let user = {
     username: profile.username,
     email: profile.email
   }
+  onMount(async () => {
+    ws = await new Sockette('ws://localhost:8000/ws', {
+      //protocols: parsedTicketResponse.ticket,
+      timeout: 5e3,
+      maxAttempts: 10,
+      onopen: e => console.log('Connected!', e),
+      onmessage: e => console.log('Received:', e.data),
+      onreconnect: e => console.log('Reconnecting...', e),
+      onmaximum: e => console.log('Stop Attempting!', e),
+      onclose: e => console.log('Closed!', e),
+      onerror: e => console.log('Error:', e)
+    });
+    wsTest = (ws) => {
+      ws.send('This is a test of the websocket!!!')
+    }
+  });
   function editProfile(){
     edit = !edit;
   }
@@ -56,7 +86,6 @@
       : window.location.href = `/profile`
     })
   }
-
 </script>
 <style>
 table {
@@ -75,6 +104,7 @@ tr:nth-child(even) {
 
 <NotificationDisplay bind:this={n} />
 <h1>Welcome, {profile.username}</h1>
+<button id="socketTest" type="button" on:click={wsTest(ws)}>Test ws.send()</button>
 
 <h2>My Profile</h2>
 {#if edit == true }

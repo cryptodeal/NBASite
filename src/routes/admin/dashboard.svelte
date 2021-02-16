@@ -1,10 +1,11 @@
 <script>
-  import { goto, stores } from '@sapper/app'
-  import { onMount } from 'svelte';
+  import {stores} from '@sapper/app'
+  import {onMount} from 'svelte';
+  import myStore from '../../components/user/store.svelte'
   import Message from '../../components/user/message.svelte';
   import Sidebar from '../../components/admin/Sidebar.svelte'
-  import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
-  let myStore;
+  import {NotificationDisplay, notifier} from '@beyonk/svelte-notifications'
+  let websocketStore;
   let message;
 	let messages = [];
   let n;
@@ -27,17 +28,8 @@
       : notifier.success(`Upload successful`)
     });
   }
-  onMount(async () => {
-    let res = await fetch(`http://localhost:8000/api/auth/ws`, {
-      method: 'GET',
-      mode: 'cors',
-      credentials: 'include'
-    });
-    let data = await res.json()
-    const { default: websocketStore } = await import('svelte-websocket-store')
-    myStore = await websocketStore('ws://localhost:8000/ws', initialValue, [data.ticket]);
-  })
-  //$: console.log($myStore)
+
+//$: if(process.browser){console.log($myStore)}
   function addResponse(){
     messages = [...messages, $myStore]
   }

@@ -4,6 +4,9 @@
   import Content from './UserContent.svelte'
   const { session } = stores()
   export let segment
+  if($session.authenticated && process.browser){
+
+  }
 </script>
 
 <style>

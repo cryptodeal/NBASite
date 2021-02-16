@@ -1,11 +1,13 @@
 <script>
   import Nav from "../components/Nav.svelte";
   import Image from "svelte-image";
- 
   import routes from "../config/routes.js";
   import { guard } from "@beyonk/sapper-rbac";
   import { tick, onMount } from "svelte";
   import { stores, goto } from "@sapper/app";
+  //import { ws } from "../components/user/readableStore";
+  let ws;
+
   
   const { page, session } = stores();
   const options = {
@@ -19,7 +21,6 @@
     await tick(); // let the previous routing finish first.
     guard(v.path, $session.profile, options);
   });
-
   export let segment;
 </script>
 

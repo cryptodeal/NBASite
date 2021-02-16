@@ -37,23 +37,22 @@ const corsConfigured = cors({
 
 nanoexpress()
   .use(corsConfigured)
-  .ws('/ws', {idleTimeout: 10}, async (req, res) => {
-    if(req.headers['sec-websocket-protocol'] !== `ThisIsATestTicket`){
-
-    }
-    console.log(req.headers['sec-websocket-protocol'])
-    console.log('Connecting...');
+  .ws('/ws', {idleTimeout: 30}, async (req, res) => {
+    //console.log(req.headers['sec-websocket-protocol'])
+    //console.log('Connecting...');
     //console.log(req)
     //await console.log(`${req.hasCookie(authToken)}`)
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     res.on('connection', (ws) => {
       console.log('Connected');
       //console.log(ws) 
+      ws.send(`Congrats, you connected!`)
 
       ws.on('message', (msg) => {
         // eslint-disable-next-line security-node/detect-crlf
+        console.log(`Client message: ${msg}`)
         ws.send(msg)
       });
       ws.on('close', (code, message) => {
