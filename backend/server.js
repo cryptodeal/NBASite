@@ -43,7 +43,13 @@ nanoexpress()
     //console.log(req)
     //await console.log(`${req.hasCookie(authToken)}`)
 
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    await new Promise((resolve, reject) => {
+      if(req.headers['sec-websocket-protocol'] !== `ThisIsATestTicket`){
+        reject(`Not authorized to use socket!!!`)
+      } else {
+        resolve(`It fucking works`)
+      }
+    });
 
     res.on('connection', (ws) => {
       console.log('Connected');

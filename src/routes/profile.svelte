@@ -38,32 +38,20 @@
   import ScopeContent from '../components/profile/ScopeContent.svelte'
   import ReviseAppContent from '../components/profile/ReviseAppContent.svelte'
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
-  import Sockette from 'sockette'
+  //import Sockette from 'sockette'
   //import {createSocket} from '../components/ws/utils'
-  let ws;
-  let wsTest
+  import {socket} from '../components/ws/socketStore'
+  //let wsTest
+  let ws
   let n;
   let edit = false;
   let user = {
     username: profile.username,
     email: profile.email
   }
-  onMount(async () => {
-    ws = await new Sockette('ws://localhost:8000/ws', {
-      //protocols: parsedTicketResponse.ticket,
-      timeout: 5e3,
-      maxAttempts: 10,
-      onopen: e => console.log('Connected!', e),
-      onmessage: e => console.log('Received:', e.data),
-      onreconnect: e => console.log('Reconnecting...', e),
-      onmaximum: e => console.log('Stop Attempting!', e),
-      onclose: e => console.log('Closed!', e),
-      onerror: e => console.log('Error:', e)
-    });
-    wsTest = (ws) => {
-      ws.send('This is a test of the websocket!!!')
-    }
-  });
+  function wsTest(){
+    $socket.send(`test~!!!`)
+  }
   function editProfile(){
     edit = !edit;
   }
@@ -104,7 +92,7 @@ tr:nth-child(even) {
 
 <NotificationDisplay bind:this={n} />
 <h1>Welcome, {profile.username}</h1>
-<button id="socketTest" type="button" on:click={wsTest(ws)}>Test ws.send()</button>
+<button id="socketTest" type="button" on:click={wsTest}>Test ws.send()</button>
 
 <h2>My Profile</h2>
 {#if edit == true }

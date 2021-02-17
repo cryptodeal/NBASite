@@ -5,22 +5,19 @@
   import { guard } from "@beyonk/sapper-rbac";
   import { tick, onMount } from "svelte";
   import { stores, goto } from "@sapper/app";
-  //import { ws } from "../components/user/readableStore";
-  let ws;
-
-  
-  const { page, session } = stores();
+  import {socket} from '../components/ws/socketStore'
   const options = {
     routes,
     deny: () => goto("/")
     // we don't specify grant here, since we don't need to do anything.
   };
-
+  const { page, session } = stores();
   // Listen to the page store.
   page.subscribe(async v => {
     await tick(); // let the previous routing finish first.
     guard(v.path, $session.profile, options);
   });
+  console.log($socket)
   export let segment;
 </script>
 
@@ -44,7 +41,7 @@
   }
   .logo-container {
 		width: 100vw;
-	  will-change: transform;
+	  will-change: auto;
   }
   :global(.cool) {
     object-fit: scale-down;

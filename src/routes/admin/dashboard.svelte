@@ -1,18 +1,18 @@
 <script>
-  import {stores} from '@sapper/app'
+  //import {stores} from '@sapper/app'
   import {onMount} from 'svelte';
-  import myStore from '../../components/user/store.svelte'
   import Message from '../../components/user/message.svelte';
   import Sidebar from '../../components/admin/Sidebar.svelte'
   import {NotificationDisplay, notifier} from '@beyonk/svelte-notifications'
-  let websocketStore;
+  import webSock from '../../components/ws/store'
+  const ws = webSock();
   let message;
 	let messages = [];
   let n;
   let sidebar_show = false;
-  const initialValue = {content: 'Initial message'};
+  //const initialValue = {content: 'Initial message'};
   //TODO: figure out best way to import css from node module for the editor, which is created onMount
-  const { session } = stores()
+  //const { session } = stores()
   function upload (e){
     const file = e.target.files[0]
     const fd = new FormData();
@@ -28,19 +28,22 @@
       : notifier.success(`Upload successful`)
     });
   }
+  onMount(async () => {
+    //const module = await import('../../components/ws/store');
+		//websocketStore = module.default;
+    //store.subscribe(currentMessage => {
+		//		messages = [...messages, currentMessage];
+		//})
+    const test = ws.getMessages()
+    console.log(test)
+  });
+  function onSendMessage() {
+		if (message.length > 0) {
+      webSock.sendMessage(message);
+			message = "";
+		}
+	}
 
-//$: if(process.browser){console.log($myStore)}
-  function addResponse(){
-    messages = [...messages, $myStore]
-  }
-  $: $myStore == null ? console.log(`nothing to add to messages`) : addResponse()
-  function onSendMessage(){
-      if (message.length > 0) {
-        console.log(message)
-        $myStore = { content: message };
-        message = "";
-      }
-    }
 </script>
 <style>
   * {
@@ -91,7 +94,7 @@
       <h1>Admin Dashboard</h1>
       <input on:change={upload} type='file' >
       <input type="text" bind:value={message} />
-      <button on:click={onSendMessage}>
+      <button on:click={onSendMessage(ws)}>
         Send Message
       </button>
       {#each messages as message, i}

@@ -9,7 +9,7 @@ export const ws = readable(null, async set => {
   // this function is called once, when the first subscriber to the store arrives
 
   //simple check to prevent err in SSR (ws is not defined in node.js as it's native javascript)
-  if (typeof WebSocket === 'undefined') return;
+  //if (typeof WebSocket === 'undefined') return;
 
   //retrieve the websocket auth ticket
   let res = await fetch(`http://localhost:8000/api/auth/ws`, {
@@ -19,7 +19,21 @@ export const ws = readable(null, async set => {
   });
   let data = res.json()
 
-  const ws = await new Sockette('ws://localhost:8000/ws', {
+  socketInit(data).then(ws => set(ws))
+
+  //sets the value of the readable store to the websocket object
+  //set(ws)
+
+  const dispose = () => {
+    socket.close()
+  }
+  // the function we return here will be called when the last subscriber
+  // unsubscribes from the store (hence there's 0 subscribers left)
+  return dispose
+})
+
+function initSocket(data){
+  let socket = new Sockette('ws://localhost:8000/ws', {
     protocols: data.ticket,
     timeout: 5e3,
     maxAttempts: 10,
@@ -30,14 +44,5 @@ export const ws = readable(null, async set => {
     onclose: e => console.log('Closed!', e),
     onerror: e => console.log('Error:', e)
   });
-
-  //sets the value of the readable store to the websocket object
-  await set(ws)
-
-  const dispose = () => {
-    socket.close()
-  }
-  // the function we return here will be called when the last subscriber
-  // unsubscribes from the store (hence there's 0 subscribers left)
-  return dispose
-})
+  return socket
+}

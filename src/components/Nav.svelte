@@ -4,9 +4,6 @@
   import Content from './UserContent.svelte'
   const { session } = stores()
   export let segment
-  if($session.authenticated && process.browser){
-
-  }
 </script>
 
 <style>
@@ -17,29 +14,24 @@
 		display: flex;
 		justify-content: space-between;
 	}
-
 	ul {
 		margin: 0;
 		padding: 0;
 	}
-
 	/* clearfix */
 	ul::after {
 		content: '';
 		display: block;
 		clear: both;
 	}
-
 	li {
 		display: block;
 		float: left;
 	}
-
 	[aria-current] {
 		position: relative;
 		display: inline-block;
 	}
-
 	[aria-current]::after {
 		position: absolute;
 		content: '';
@@ -49,13 +41,11 @@
 		display: block;
 		bottom: -1px;
 	}
-
 	a {
 		text-decoration: none;
 		padding: 1em 0.5em;
 		display: block;
   }
-  
 </style>
 
 <nav>
