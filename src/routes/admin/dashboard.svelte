@@ -1,18 +1,9 @@
 <script>
-  //import {stores} from '@sapper/app'
-  import {onMount} from 'svelte';
-  import Message from '../../components/user/message.svelte';
   import Sidebar from '../../components/admin/Sidebar.svelte'
   import {NotificationDisplay, notifier} from '@beyonk/svelte-notifications'
-  import webSock from '../../components/ws/store'
-  const ws = webSock();
-  let message;
-	let messages = [];
+  import {socket} from '../../components/ws/socketStore'
   let n;
   let sidebar_show = false;
-  //const initialValue = {content: 'Initial message'};
-  //TODO: figure out best way to import css from node module for the editor, which is created onMount
-  //const { session } = stores()
   function upload (e){
     const file = e.target.files[0]
     const fd = new FormData();
@@ -28,22 +19,9 @@
       : notifier.success(`Upload successful`)
     });
   }
-  onMount(async () => {
-    //const module = await import('../../components/ws/store');
-		//websocketStore = module.default;
-    //store.subscribe(currentMessage => {
-		//		messages = [...messages, currentMessage];
-		//})
-    const test = ws.getMessages()
-    console.log(test)
-  });
-  function onSendMessage() {
-		if (message.length > 0) {
-      webSock.sendMessage(message);
-			message = "";
-		}
-	}
-
+  function wsTest(){
+    $socket.send(JSON.stringify({message: `test~!!!`}))
+  }
 </script>
 <style>
   * {
@@ -93,13 +71,7 @@
     <div class="column2">
       <h1>Admin Dashboard</h1>
       <input on:change={upload} type='file' >
-      <input type="text" bind:value={message} />
-      <button on:click={onSendMessage(ws)}>
-        Send Message
-      </button>
-      {#each messages as message, i}
-          <Message {message} direction={i % 2 == 0 ? "left" :  "right" } />
-      {/each}
+      <button id="socketTest" type="button" on:click={wsTest}>Test ws.send()</button>
     </div>
   </div>
 </main>

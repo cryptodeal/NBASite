@@ -27,7 +27,6 @@ function login (email, pwd) {
         notifier.danger('Authentication failed')
       } else {
         window.location.href = 'profile'
-        //console.log('finish fetch request')
       }
     })
   }

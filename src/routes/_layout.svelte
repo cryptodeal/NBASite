@@ -2,14 +2,12 @@
   import Nav from "../components/Nav.svelte";
   import Image from "svelte-image";
   import routes from "../config/routes.js";
-  import { guard } from "@beyonk/sapper-rbac";
-  import { tick, onMount } from "svelte";
-  import { stores, goto } from "@sapper/app";
-  import {socket} from '../components/ws/socketStore'
+  import {guard} from "@beyonk/sapper-rbac";
+  import {tick} from "svelte";
+  import {stores, goto} from "@sapper/app";
   const options = {
     routes,
     deny: () => goto("/")
-    // we don't specify grant here, since we don't need to do anything.
   };
   const { page, session } = stores();
   // Listen to the page store.
@@ -17,7 +15,6 @@
     await tick(); // let the previous routing finish first.
     guard(v.path, $session.profile, options);
   });
-  console.log($socket)
   export let segment;
 </script>
 
@@ -46,7 +43,6 @@
   :global(.cool) {
     object-fit: scale-down;
   }
-  
 </style>
 <div class='logo-container'>
   <Image src='title.png' alt="Tankie News Network logo"/>
@@ -60,4 +56,3 @@
   <slot></slot>
 </main>
 {/if}
-

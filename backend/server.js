@@ -4,7 +4,8 @@ const nanoexpress = require('nanoexpress');
 const bodyParser = require('@nanoexpress/middleware-body-parser/cjs');
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
-const cookie = require('cookie')
+const cookie = require('cookie');
+const {verifyToken} = require('./utils/mongoose')
 
 
 //TODO - MIDDLEWARE:
@@ -27,6 +28,7 @@ const {adminGetArticleSlug} = require('./api/admin/articles/edit/:slug');
 const {contentPostPic} = require('./api/content/images/picture');
 const {contentPostArticlePic} = require('./api/content/images/article-image');
 const {getTicket} = require('./api/auth/ws/ticket')
+const connections = {};
 
 const corsConfigured = cors({
   origin: 'http://localhost:3000',
@@ -38,37 +40,59 @@ const corsConfigured = cors({
 nanoexpress()
   .use(corsConfigured)
   .ws('/ws', {idleTimeout: 30}, async (req, res) => {
-    //console.log(req.headers['sec-websocket-protocol'])
-    //console.log('Connecting...');
-    //console.log(req)
-    //await console.log(`${req.hasCookie(authToken)}`)
+    console.log(req.headers)
+    console.log('Connecting...');
 
+    //JWT is now being sent, use that for initial verification
     await new Promise((resolve, reject) => {
-      if(req.headers['sec-websocket-protocol'] !== `ThisIsATestTicket`){
-        reject(`Not authorized to use socket!!!`)
-      } else {
-        resolve(`It fucking works`)
-      }
+      const {authToken} = req.cookies
+      verifyToken(authToken, function(err, verifiedJwt){
+        if(err) reject(`unable to verify JWT`)
+        console.log(verifiedJwt)
+        resolve(`Success!`)
+      })
     });
 
     res.on('connection', (ws) => {
       console.log('Connected');
-      //console.log(ws) 
-      ws.send(`Congrats, you connected!`)
+      //AFTER INITIAL CONNECTION, CREATE WS TICKET AND STORE TO REDIS
+
+      //Using connections object to store ws connections for testing
+      let ticket = `ThisIsATestTicket`
+      ws.ticket = ticket
+      connections[ticket] = ws
+      ws.send(JSON.stringify({
+        action: `auth`,
+        ticket: ticket
+      }))
 
       ws.on('message', (msg) => {
-        // eslint-disable-next-line security-node/detect-crlf
-        console.log(`Client message: ${msg}`)
-        ws.send(msg)
+        console.log(ws) 
+        let json = JSON.parse(msg)
+        console.log(`Client message: ${json.message}`)
+
+        //if(connections[json.ticket]){
+          //ws.send(JSON.stringify({
+          //  action: `receipt`,
+          //  message: `Your data was received by the server`
+          //}))
+        //}else{ 
+        //  ws.close()
+        //}
+        
+        //ws.send(msg)
+        ws.send(JSON.stringify({
+          action: `receipt`,
+          message: json.message
+        }))
       });
       ws.on('close', (code, message) => {
-        // eslint-disable-next-line security-node/detect-crlf
         console.log('Connection closed', { code, message });
       });
     });
-    res.on('upgrade', () => {
-      console.log('Connection upgrade');
-    });
+    //res.on('upgrade', () => {
+    //  console.log('Connection upgrade');
+    //});
   })
   .use(bodyParser({
     json: true,

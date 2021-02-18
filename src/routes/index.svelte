@@ -1,6 +1,6 @@
 <script>
-  import { goto, stores } from '@sapper/app'
-  const { session } = stores()
+  import {stores} from '@sapper/app'
+  const {session} = stores()
   let email = null
   let password = ''
 

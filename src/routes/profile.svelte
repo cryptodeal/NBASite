@@ -6,9 +6,9 @@
       credentials: 'include'
     });
     //const ticketRes = await this.fetch(`http://localhost:8000/api/auth/ws`, {
-    //  method: 'GET',
-    //  mode: 'cors',
-    //  credentials: 'include'
+      //method: 'GET',
+      //mode: 'cors',
+      //credentials: 'include'
     //});
 		const parsedProfileRes = await profileRes.json();
     //const parsedTicketRes = await ticketRes.json();
@@ -31,18 +31,12 @@
 <script>
   export let profile
   export let apps
-  //export let wsTicketRes
   import Modal from 'svelte-simple-modal'
-  import {onMount} from 'svelte';
   import dayjs from 'dayjs'
   import ScopeContent from '../components/profile/ScopeContent.svelte'
   import ReviseAppContent from '../components/profile/ReviseAppContent.svelte'
-  import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
-  //import Sockette from 'sockette'
-  //import {createSocket} from '../components/ws/utils'
+  import {NotificationDisplay, notifier} from '@beyonk/svelte-notifications'
   import {socket} from '../components/ws/socketStore'
-  //let wsTest
-  let ws
   let n;
   let edit = false;
   let user = {
@@ -50,7 +44,7 @@
     email: profile.email
   }
   function wsTest(){
-    $socket.send(`test~!!!`)
+    $socket.send(JSON.stringify({message: `test~!!!`}))
   }
   function editProfile(){
     edit = !edit;

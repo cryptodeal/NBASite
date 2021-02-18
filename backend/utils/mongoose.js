@@ -52,6 +52,7 @@ exports.createToken = async (user) => {
   let claims = {
     email:  user.email,
     username: user.username,
+    ticket: `ThisIsATestTicket`,
     //hard coding scope until admin panel allows scope to be set
     //scope: [ user.scope ],
     scope: [ 'admin' ],
