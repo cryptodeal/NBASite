@@ -1,4 +1,4 @@
-const {verifyToken, getUserApps} = require('../../utils/mongoose');
+const {verifyToken, getUserApps, updateUser} = require('../../utils/mongoose');
 
 exports.getProfile = (req, res) => {
   console.log(`trying to get user data`)
