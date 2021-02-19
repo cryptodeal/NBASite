@@ -1,4 +1,4 @@
-const {verifyToken, getUserApps, updateUser} = require('../../utils/mongoose');
+const {verifyToken, getUserApps, updateUser, createToken} = require('../../utils/mongoose');
 
 exports.getProfile = (req, res) => {
   console.log(`trying to get user data`)
@@ -33,6 +33,7 @@ exports.postProfile = (req, res) => {
       console.log(verifiedJwt)
       console.log(`User ID to modify: ${verifiedJwt.id}`)
       const {updated} = req.body;
+      console.log(updated)
       updateUser(verifiedJwt.id, updated).then(updatedUser => {
         if(!updatedUser){
           console.log('User could not be updated')

@@ -11,6 +11,10 @@
   let password = null;
 
 function login (email, pwd) {
+  console.log(JSON.stringify({
+        email,
+        pwd
+      }))
     fetch('http://localhost:8000/api/session', {
       method: 'POST',
       mode: 'cors',

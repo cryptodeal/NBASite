@@ -243,10 +243,14 @@
   })
 
   async function saveArticle() {
-    console.log(updatedArticle.publishedDate)
+    //console.log(updatedArticle.publishedDate)
     updatedArticle.content.extended = quill.root.innerHTML
     if (updatedArticle.state) updatedArticle.state = updatedArticle.state.value
     let id = {_id: _id}
+    console.log(JSON.stringify({
+        updatedArticle,
+        id
+    }))
     console.log(updatedArticle)
     return fetch(`http://localhost:8000/api/content/articles`, {
       method: "POST",
@@ -269,7 +273,10 @@
   };
 
   async function deleteArticle() {
-    console.log(`here is the inner html: ${quill.root.innerHTML}`)
+    //console.log(`here is the inner html: ${quill.root.innerHTML}`)
+    console.log(JSON.stringify({
+        id: _id
+      }))
     let res = await fetch(`api/content/articles`, {
       method: "DELETE",
       mode: 'cors',

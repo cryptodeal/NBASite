@@ -24,6 +24,10 @@
 		close();
   }
   function saveAppReview(){
+    console.log(JSON.stringify({
+        id: id,
+        updated: updated
+      }))
     return fetch(`http://localhost:8000/api/admin/apps`, {
       method: "POST",
       mode: 'cors',

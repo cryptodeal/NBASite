@@ -13,6 +13,7 @@ const {verifyToken} = require('./utils/mongoose')
 
 
 //ROUTE IMPORTS
+const {routerVerify} = require('./utils/mongoose')
 const {login, logout} = require('./api/auth/session');
 const {signUp} = require('./api/auth/signup');
 const {loadArticles} = require ('./api/articles/index');
@@ -40,56 +41,56 @@ const corsConfigured = cors({
 nanoexpress()
   .use(corsConfigured)
   .ws('/ws', {idleTimeout: 30}, async (req, res) => {
-    console.log(req.headers)
+    //console.log(req.headers)
     console.log('Connecting...');
 
     //JWT is now being sent, use that for initial verification
-    await new Promise((resolve, reject) => {
-      const {authToken} = req.cookies
-      verifyToken(authToken, function(err, verifiedJwt){
-        if(err) reject(`unable to verify JWT`)
-        console.log(verifiedJwt)
-        resolve(`Success!`)
-      })
-    });
+    const {authToken} = req.cookies;
+    let verified = await routerVerify(authToken)
+      res.on('connection', (ws) => {
+        if(verified === false){
+          ws.close()
+        } else {
+          console.log('Connected');
+          //AFTER INITIAL CONNECTION, CREATE WS TICKET AND STORE TO REDIS
 
-    res.on('connection', (ws) => {
-      console.log('Connected');
-      //AFTER INITIAL CONNECTION, CREATE WS TICKET AND STORE TO REDIS
+          //Using connections object to store ws connections for testing
+          let ticket = `ThisIsATestTicket`
+          ws.ticket = ticket
+          connections[ticket] = ws
+          //console.log(connections)
+          ws.send(JSON.stringify({
+            action: `auth`,
+            ticket: ticket
+          }))
+          ws.on('message', (msg) => {
+            console.log(ws) 
+            let json = JSON.parse(msg)
+            console.log(`Client message: ${json.message}`)
 
-      //Using connections object to store ws connections for testing
-      let ticket = `ThisIsATestTicket`
-      ws.ticket = ticket
-      connections[ticket] = ws
-      ws.send(JSON.stringify({
-        action: `auth`,
-        ticket: ticket
-      }))
-
-      ws.on('message', (msg) => {
-        console.log(ws) 
-        let json = JSON.parse(msg)
-        console.log(`Client message: ${json.message}`)
-
-        //if(connections[json.ticket]){
-          //ws.send(JSON.stringify({
-          //  action: `receipt`,
-          //  message: `Your data was received by the server`
-          //}))
-        //}else{ 
-        //  ws.close()
-        //}
-        
-        //ws.send(msg)
-        ws.send(JSON.stringify({
-          action: `receipt`,
-          message: json.message
-        }))
+            //if(connections[json.ticket]){
+              //ws.send(JSON.stringify({
+              //  action: `receipt`,
+              //  message: `Your data was received by the server`
+              //}))
+            //}else{ 
+            //  ws.close()
+            //}
+            
+            //ws.send(msg)
+            ws.send(JSON.stringify({
+              action: `receipt`,
+              message: json.message
+            }))
+          });
+          ws.on('close', (code, message) => {
+            console.log('Connection closed', { code, message });
+            delete connections[ticket]
+            //console.log(connections)
+          });
+        }
       });
-      ws.on('close', (code, message) => {
-        console.log('Connection closed', { code, message });
-      });
-    });
+
     //res.on('upgrade', () => {
     //  console.log('Connection upgrade');
     //});

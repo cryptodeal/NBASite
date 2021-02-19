@@ -10,7 +10,7 @@
     deny: () => goto("/")
   };
   const { page, session } = stores();
-  // Listen to the page store.
+   // Listen to the page store.
   page.subscribe(async v => {
     await tick(); // let the previous routing finish first.
     guard(v.path, $session.profile, options);

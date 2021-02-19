@@ -19,6 +19,7 @@
       : notifier.success(`Upload successful`)
     });
   }
+
   function wsTest(){
     $socket.send(JSON.stringify({message: `test~!!!`}))
   }

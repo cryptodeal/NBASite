@@ -14,6 +14,11 @@
   let username = null;
 
   function register (email, pwd, username) {
+    console.log(JSON.stringify({
+        email,
+        pwd,
+        username
+      }))
     fetch('http://localhost:8000/api/signup', {
       method: 'POST',
       mode: 'cors',

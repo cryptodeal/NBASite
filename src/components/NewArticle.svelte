@@ -16,6 +16,9 @@
   }
   let title = null;
   function initArticle() {
+    console.log(JSON.stringify({
+        title: title
+      }))
     return fetch(`http://localhost:8000/api/admin/articles`, {
       method: "POST",
       mode: 'cors',

@@ -50,6 +50,10 @@
     edit = !edit;
   }
   function saveProfile(){
+    console.log(JSON.stringify({
+        id: profile.id,
+        updated: user
+      }))
     return fetch(`http://localhost:8000/api/user/profile`, {
       method: "POST",
       mode: 'cors',

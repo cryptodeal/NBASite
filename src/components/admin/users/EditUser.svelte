@@ -21,6 +21,10 @@
 		close();
   }
   function updateUser(){
+    console.log(JSON.stringify({
+        id,
+        updated
+      }))
     return fetch(`http://localhost:8000/api/admin/users`, {
       method: "POST",
       mode: 'cors',

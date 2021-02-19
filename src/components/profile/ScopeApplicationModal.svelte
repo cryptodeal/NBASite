@@ -17,6 +17,9 @@
 
 
 function submitApplication(email, password) {
+  JSON.stringify({
+        app
+      })
     fetch('http://localhost:8000/api/user/scope/app', {
       method: "POST",
       mode: 'cors',
