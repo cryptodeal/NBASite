@@ -57,7 +57,6 @@
   <p>You are logged in as {$session.profile.name}</p>
   {:else}
   <form>
-  <p>Login</p>
   <select bind:value={email}>
     <option value={null}>-- Select User Type --</option>
     <option value="admin@example.com">Test Admin</option>

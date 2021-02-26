@@ -1,10 +1,10 @@
-const {verifyToken, getUserApps, updateUser, createToken} = require('../../utils/mongoose');
+const {verifyToken, getUserApps, updateUser, createToken, getUserSubscriptions} = require('../../utils/mongoose');
 
 exports.getProfile = (req, res) => {
   console.log(`trying to get user data`)
   const { authToken } = req.cookies;
   console.log(authToken)
-  verifyToken(authToken, function(err, verifiedJwt){
+  verifyToken(authToken, async function(err, verifiedJwt){
     if(err){
       console.log(err)
       res.status(401)
@@ -12,11 +12,21 @@ exports.getProfile = (req, res) => {
       }
     else {
       console.log(verifiedJwt)
-      getUserApps(verifiedJwt.id).then(apps => {
-        res.status(200)
-        res.writeHeader('Content-Type', 'application/json')
-        res.send(apps);
-      }).catch(console.error)
+      let apps = await getUserApps(verifiedJwt.id)
+      let subs = await getUserSubscriptions(verifiedJwt.id)
+      console.log(subs)
+      let profileData = {
+        apps: apps,
+        subscriptions: subs
+      }
+      res.status(200)
+      res.writeHeader('Content-Type', 'application/json')
+      res.send(profileData);
+      //getUserApps(verifiedJwt.id).then(apps => {
+        //res.status(200)
+        //res.writeHeader('Content-Type', 'application/json')
+        //res.send(apps);
+      //}).catch(console.error)
     }
   })
 }

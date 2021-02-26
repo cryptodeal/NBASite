@@ -1,7 +1,8 @@
 <script>
   import Sidebar from '../../components/admin/Sidebar.svelte'
   import {NotificationDisplay, notifier} from '@beyonk/svelte-notifications'
-  import {socket} from '../../components/ws/socketStore'
+  //import {socket} from '../../components/ws/socketStore'
+  import { getContext } from 'svelte'
   let n;
   let sidebar_show = false;
   function upload (e){
@@ -19,9 +20,12 @@
       : notifier.success(`Upload successful`)
     });
   }
+  const socket$ = getContext('socket')
+  $: socket = $socket$
+
 
   function wsTest(){
-    $socket.send(JSON.stringify({message: `test~!!!`}))
+    socket.json({message: `test~!!!`})
   }
 </script>
 <style>

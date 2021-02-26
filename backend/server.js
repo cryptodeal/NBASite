@@ -38,9 +38,9 @@ const corsConfigured = cors({
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 });
 
-nanoexpress()
-  .use(corsConfigured)
-  .ws('/ws', {idleTimeout: 30}, async (req, res) => {
+const server = nanoexpress()
+  server.use(corsConfigured)
+  server.ws('/ws', {idleTimeout: 30}, async (req, res) => {
     //console.log(req.headers)
     console.log('Connecting...');
 
@@ -55,18 +55,28 @@ nanoexpress()
           //AFTER INITIAL CONNECTION, CREATE WS TICKET AND STORE TO REDIS
 
           //Using connections object to store ws connections for testing
-          let ticket = `ThisIsATestTicket`
-          ws.ticket = ticket
-          connections[ticket] = ws
+          let ticket = `ThisIsATestTicket`;
+          ws.subscribe('test');
+          ws.ticket = ticket;
+          connections[ticket] = ws;
           //console.log(connections)
-          ws.send(JSON.stringify({
-            action: `auth`,
-            ticket: ticket
+          server.publish('test', JSON.stringify({
+            action: `pubsubtest`,
+            ticket: 'testing the pub sub features of nanoexpress/uws'
           }))
+          //ws.send(JSON.stringify({
+          //  action: `auth`,
+          //  ticket: ticket
+          //}))
           ws.on('message', (msg) => {
             console.log(ws) 
             let json = JSON.parse(msg)
             console.log(`Client message: ${json.message}`)
+
+            //HERE YOU SHOULD CHECK REDIS FOR THE TICKET (ENSURE TICKET EXISTS)
+            //if(ws.ticket !== ticket){
+              //ws.close()
+            //}
 
             //if(connections[json.ticket]){
               //ws.send(JSON.stringify({
@@ -95,32 +105,32 @@ nanoexpress()
     //  console.log('Connection upgrade');
     //});
   })
-  .use(bodyParser({
+  server.use(bodyParser({
     json: true,
     experimentalJsonParse: true
   }))
-  .use(fileUpload())
-  .post('/api/session', login)
-  .del('/api/session', logout)
-  .post('/api/signup', signUp)
-  .get('/api/articles', loadArticles)
-  .get('/api/articles/:slug', loadArticle)
-  .get('/api/user/profile', getProfile)
-  .post('/api/user/profile', postProfile)
-  .get('/api/admin/apps', adminGetApps)
-  .post('/api/admin/apps', adminPostApps)
-  .get('/api/admin/categories', adminGetCat)
-  .post('/api/admin/categories', adminPostCat)
-  .get('/api/admin/users', adminGetUsers)
-  .post('/api/admin/users', adminPostUsers)
-  .post('/api/user/scope/app', postScopeApp)
-  .post('/api/content/articles', contentPostArticle)
-  .del('/api/content/articles', contentDelArticle)
-  .get('/api/admin/articles', adminGetArticles)
-  .post('/api/admin/articles', adminPostArticles)
-  .get('/api/admin/articles/edit/:slug', adminGetArticleSlug)
-  .post('/api/content/images/picture', contentPostPic)
-  .get('/api/auth/ws', getTicket)
+  server.use(fileUpload())
+  server.post('/api/session', login)
+  server.del('/api/session', logout)
+  server.post('/api/signup', signUp)
+  server.get('/api/articles', loadArticles)
+  server.get('/api/articles/:slug', loadArticle)
+  server.get('/api/user/profile', getProfile)
+  server.post('/api/user/profile', postProfile)
+  server.get('/api/admin/apps', adminGetApps)
+  server.post('/api/admin/apps', adminPostApps)
+  server.get('/api/admin/categories', adminGetCat)
+  server.post('/api/admin/categories', adminPostCat)
+  server.get('/api/admin/users', adminGetUsers)
+  server.post('/api/admin/users', adminPostUsers)
+  server.post('/api/user/scope/app', postScopeApp)
+  server.post('/api/content/articles', contentPostArticle)
+  server.del('/api/content/articles', contentDelArticle)
+  server.get('/api/admin/articles', adminGetArticles)
+  server.post('/api/admin/articles', adminPostArticles)
+  server.get('/api/admin/articles/edit/:slug', adminGetArticleSlug)
+  server.post('/api/content/images/picture', contentPostPic)
+  server.get('/api/auth/ws', getTicket)
 
   //TODO ROUTES:
 
@@ -136,5 +146,5 @@ nanoexpress()
 
 
 
-  .listen(8000)
+  server.listen(8000)
 

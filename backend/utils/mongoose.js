@@ -206,3 +206,7 @@ exports.saveAppReview = (id, feedback) => {
 exports.updateUserScope = (id, scope) => {
   return User.findByIdAndUpdate(id, {'scope': scope}, {new: true}).exec()
 }
+
+exports.getUserSubscriptions = (id) => {
+  return User.findById(id).select('subscriptions').exec()
+}

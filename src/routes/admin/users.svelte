@@ -15,20 +15,24 @@
 	}
 </script>
 <script>
-    export let items;
-    import Modal from 'svelte-simple-modal'
-    import Grid from 'svelte-grid-responsive'
-    import Sidebar from '../../components/admin/Sidebar.svelte'
-    import VirtualList from '@sveltejs/svelte-virtual-list'
-    import UserListItem from '../../components/admin/users/UserListItem.svelte'
-    import { goto, stores } from '@sapper/app'
-    let sidebar_show = false;
-    let emailSearch = '';
-    let scopeSearch = '';
-    let useritemlist_show = false;
-	  $: filteredList = items.filter(item => item.email.toLowerCase().indexOf(emailSearch.toLowerCase()) !== -1 && item.scope.toLowerCase().indexOf(scopeSearch.toLowerCase()) !== -1);
-	  let start;
-    let end;
+  export let items;
+  import Modal from 'svelte-simple-modal'
+  import Grid from 'svelte-grid-responsive'
+  import Sidebar from '../../components/admin/Sidebar.svelte'
+  import VirtualList from '@sveltejs/svelte-virtual-list'
+  import UserListItem from '../../components/admin/users/UserListItem.svelte'
+  import { goto, stores } from '@sapper/app'
+  import {socket} from '../../components/ws/socketStore'
+  let sidebar_show = false;
+  let emailSearch = '';
+  let scopeSearch = '';
+  let useritemlist_show = false;
+  $: filteredList = items.filter(item => item.email.toLowerCase().indexOf(emailSearch.toLowerCase()) !== -1 && item.scope.toLowerCase().indexOf(scopeSearch.toLowerCase()) !== -1);
+  let start;
+  let end;
+  function wsTest(){
+    $socket.json({message: `test~!!!`})
+  }
 </script>
 <style>
   * {
@@ -104,5 +108,6 @@
 	        <p>showing users {start}-{end}</p>
         </div>
     </div>
+    <button id="socketTest" type="button" on:click={wsTest}>Test ws.send()</button>
   </div>
 </main>

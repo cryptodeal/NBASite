@@ -10,6 +10,7 @@ const User = new Schema ({
 	username: { type: String },
 	scope: { type: String, required: true, default: 'admin' },
 	password: { type: String, required: true },
+  subscriptions: [{type: String, required: false}],
 	//twitter: { type: String },
   bio: { type: Object },
   name: { 
