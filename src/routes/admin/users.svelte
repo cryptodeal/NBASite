@@ -22,7 +22,8 @@
   import VirtualList from '@sveltejs/svelte-virtual-list'
   import UserListItem from '../../components/admin/users/UserListItem.svelte'
   import { goto, stores } from '@sapper/app'
-  import {socket} from '../../components/ws/socketStore'
+  import {socket, socketWritableStore} from '../../components/ws/socketStore'
+  $: console.log($socketWritableStore)
   let sidebar_show = false;
   let emailSearch = '';
   let scopeSearch = '';

@@ -29,7 +29,8 @@
   import ScopeContent from '../components/profile/ScopeContent.svelte'
   import ReviseAppContent from '../components/profile/ReviseAppContent.svelte'
   import {NotificationDisplay, notifier} from '@beyonk/svelte-notifications'
-  import {socket} from '../components/ws/socketStore'
+  import {socket, socketWritableStore} from '../components/ws/socketStore'
+  $: console.log($socketWritableStore)
   let n;
   let newSub = '';
   let edit = false;
