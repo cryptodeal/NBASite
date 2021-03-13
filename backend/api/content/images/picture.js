@@ -39,14 +39,22 @@ exports.contentPostPic = async (req, res) => {
       })
     }
     return Promise.all(promises).then(data => {
-      console.log(data)
-      let content = data.map(datum => ({
-        location: datum.Location
-      }))
-      //HERE images needs to be stored in an array of strings indicating the user that uploaded the image
+      //console.log(data)
+      const content = []
+      data.map(datum => {
+        let keySplit = datum.key.split('-')
+        let sizeSplit = keySplit[keySplit.length-1].split('.')
+        let imageData = {
+          location: datum.Location,
+          size: sizeSplit[0],
+          format: sizeSplit[1]
+        }
+        content.push(imageData)
+      })
       console.log(content)
-      res.status(200)
-      res.writeHeader('Content-Type', 'application/json')
+      res.writeHead(200, {
+        'Content-Type': 'application/json'
+      });
       res.send(content);
     })
   })

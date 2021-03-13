@@ -39,16 +39,23 @@ exports.contentPostArticlePic = async (req, res) => {
       })
     }
     return Promise.all(promises).then(data => {
-      console.log(data)
-      let content = JSON.stringify(data.map(datum => ({
-        location: datum.Location
-      })))
-      //console.log(content)
+      //console.log(data)
+      const content = []
+      data.map(datum => {
+        let keySplit = datum.key.split('-')
+        let sizeSplit = keySplit[keySplit.length-1].split('.')
+        let imageData = {
+          location: datum.Location,
+          size: sizeSplit[0],
+          format: sizeSplit[1]
+        }
+        content.push(imageData)
+      })
+      console.log(content)
       res.writeHead(200, {
         'Content-Type': 'application/json'
       });
-      res.end(content);
-
+      res.send(content);
     })
   })
 }
