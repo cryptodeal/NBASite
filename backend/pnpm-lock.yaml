@@ -5,6 +5,7 @@ dependencies:
   cookie: 0.4.1
   cors: 2.8.5
   dotenv: 8.2.0
+  entropy-string: 4.2.0
   express-fileupload: 1.2.1
   jsonwebtoken: 8.5.1
   mongoose: 5.12.0
@@ -33,6 +34,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-kocDQvIbgMKlWxXe9fof3TQ+gkIPOUSEYhJjqUjvKMez3krV7vbzYCDq39Oj11UAVK7JqPVGQPlgE85dPNlQww==
+  /@babel/runtime/7.13.10:
+    dependencies:
+      regenerator-runtime: 0.13.7
+    dev: false
+    resolution:
+      integrity: sha512-4QPkjJq6Ns3V/RgpEahRk+AGfL0eO6RHHtTWoNNr5mO49G6B5+X6d6THgWEAvTrznU5xYpbAlVKRYcsCgh/Akw==
   /@dalisoft/args/0.1.1:
     dev: false
     resolution:
@@ -945,6 +952,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==
+  /entropy-string/4.2.0:
+    dependencies:
+      '@babel/runtime': 7.13.10
+    dev: false
+    resolution:
+      integrity: sha512-PI/rkkCL6baY8dmJeNEco0tGDFeerVrFozaPLjSFuWRqD/LQsxIegEItQZnw4xcSz7E0TTMxeIw1nq240ZLXlw==
   /env-ci/5.0.2:
     dependencies:
       execa: 4.1.0
@@ -2551,6 +2564,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-iYS1gV2ZyyIEacme7v/jiRPmzAs=
+  /regenerator-runtime/0.13.7:
+    dev: false
+    resolution:
+      integrity: sha512-a54FxoJDIr27pgf7IgeQGxmqUNYrcV338lf/6gH456HZ/PhX+5BcwHXG9ajESmwe6WRO0tAzRUrRmNONWgkrew==
   /regexp-clone/1.0.0:
     dev: false
     resolution:
@@ -3321,6 +3338,7 @@ specifiers:
   cookie: ^0.4.1
   cors: ^2.8.5
   dotenv: ^8.2.0
+  entropy-string: ^4.2.0
   express-fileupload: ^1.2.1
   jsonwebtoken: ^8.5.1
   mongoose: 5.12.0

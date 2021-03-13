@@ -27,8 +27,7 @@ exports.webpEditUpload = (size, image, baseName) => {
       Body: data
     }
 
-    let s3Promise = s3.upload(params).promise()
-    return s3Promise
+    return s3.upload(params).promise()
   })
   .catch( err => { 
     console.log(err)

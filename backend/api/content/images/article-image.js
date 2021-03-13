@@ -2,6 +2,7 @@
 //TODO: CREATE MULTIPLE UPLOAD HANDLERS BASED ON USE/CONTEXT OF IMAGE
 require('dotenv').config();
 const sharp = require('sharp');
+const { Entropy } = require('entropy-string')
 const {webpEditUpload} = require('./utils/webp');
 const {jpegEditUpload} = require('./utils/jpeg');
 const {pngEditUpload} = require('./utils/png');
@@ -17,8 +18,8 @@ exports.contentPostArticlePic = async (req, res) => {
 
   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
   const file = req.files.sampleFile;
-  //const baseName = file.name.substring(0, file.name.lastIndexOf('.'));
-  const baseName = 'test.jpg'
+  const entropy = new Entropy({ total: 1e6, risk: 1e9 })
+  const baseName = entropy.string()
   if(!file.mimetype.startsWith('image')) {
     return (res.statusCode=400,res.end('Images only!'));
   }

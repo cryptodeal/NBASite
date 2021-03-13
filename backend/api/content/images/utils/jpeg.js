@@ -26,9 +26,7 @@ exports.jpegEditUpload = (size, image, baseName) => {
         Key: `testing/${baseName}-${size}.jpeg`,
         Body: data
       }
-
-      let s3Promise = s3.upload(params).promise()
-      return s3Promise
+      return s3.upload(params).promise()
     })
     .catch( err => { 
       console.log(err)

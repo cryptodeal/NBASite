@@ -18,6 +18,7 @@ exports.pngEditUpload = (size, image, baseName) => {
       accessKeyId: process.env.AWS_ID,
       secretAccessKey: process.env.AWS_SECRET
     })
+    
     const s3 = new AWS.S3();
 
     let params = {
@@ -25,9 +26,7 @@ exports.pngEditUpload = (size, image, baseName) => {
       Key: `testing/${baseName}-${size}.png`,
       Body: data
     }
-
-    let s3Promise = s3.upload(params).promise()
-    return s3Promise
+    return s3.upload(params).promise()
   })
   .catch( err => { 
     console.log(err)
