@@ -1,6 +1,6 @@
 dependencies:
   '@nanoexpress/middleware-body-parser': 1.0.3
-  aws-sdk: 2.863.0
+  aws-sdk: 2.865.0
   bcrypt: 5.0.1
   cookie: 0.4.1
   cors: 2.8.5
@@ -452,7 +452,7 @@ packages:
       node: '>= 4.0.0'
     resolution:
       integrity: sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==
-  /aws-sdk/2.863.0:
+  /aws-sdk/2.865.0:
     dependencies:
       buffer: 4.9.2
       events: 1.1.1
@@ -467,7 +467,7 @@ packages:
     engines:
       node: '>= 0.8.0'
     resolution:
-      integrity: sha512-krr0047EOl9qpRdhPoyYxI7+viVUpX+t+Vjbf+alXdOE172DC+hFi8y6egIM1xVV4KkMFm0y0EykBWgA93XNNA==
+      integrity: sha512-JUaUlGjnJY4Nnd/xnWt8rPmTwebVvA26XfnUM3tyAPtSClwniANkaRq4UdHI0uU3R+V4N2Cuohy8XSLOzBG/4A==
   /balanced-match/1.0.0:
     dev: false
     resolution:
@@ -3333,7 +3333,7 @@ packages:
     version: 18.14.0
 specifiers:
   '@nanoexpress/middleware-body-parser': ^1.0.3
-  aws-sdk: ^2.863.0
+  aws-sdk: ^2.865.0
   bcrypt: ^5.0.1
   cookie: ^0.4.1
   cors: ^2.8.5

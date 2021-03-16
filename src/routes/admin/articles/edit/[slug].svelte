@@ -24,15 +24,11 @@
   import Grid from 'svelte-grid-responsive'
   import 'quill/dist/quill.snow.css'
   import Datepicker from 'svelte-calendar'
-  import Sidebar from '../../../../components/admin/Sidebar.svelte'
   let updatedArticle = {
     content: {},
   }
-  const { session } = stores()
-  let sidebar_show = false;
   let quill;
   let _id = article._id
-  let n;
   article.content.brief ? updatedArticle.content.brief = article.content.brief : updatedArticle.content.brief = '';
   let editor;
   let stateOptions = ['draft', 'published', 'archived']
@@ -312,33 +308,6 @@
 	* {
     box-sizing: border-box;
   }
-
-  .row {
-    display: flex;
-  }
-  main {
-    position: relative;
-    background-color: white;
-    margin: 0;
-    box-sizing: border-box;
-    max-width: 100%;
-  }
-  .column1 {
-    flex: 13%;
-    padding: 10px;
-  }
-  .column2 {
-    flex: 87%;
-    padding: 10px;
-  }
-  .openbtn {
-    font-size: 13px;
-    cursor: pointer;
-    background-color: #d74e4d;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-  }
   .custom-button {
 	  display: inline-block;
 	  background: #d74e4d;
@@ -382,117 +351,104 @@
 	<title>Edit: {article.title}</title>
 </svelte:head>
 
-<main>
-  <NotificationDisplay bind:this={n} />
-  <div class="row">
-    <div class='side'>
-      <Sidebar bind:show={sidebar_show}/>
+<h1>Edit Article</h1>
+<Grid container gutter={12}>
+  <Grid xs={12} md={2} lg={1}>
+    Title:
+  </Grid>
+  <Grid xs={12} md={10} lg={11}>
+    <input type="text" bind:value={updatedArticle.title} />
+  </Grid>
+</Grid>
+<br/>
+<Grid container gutter={12}>
+  <Grid xs={12} md={2} lg={1}>
+    Featured Image:
+  </Grid>
+  <Grid xs={12} md={10} lg={11}>
+    <input on:change={upload} type='file' >
+  </Grid>
+</Grid>
+<br/>
+<Grid container gutter={12}>
+  <Grid xs={12} md={2} lg={1}>
+    State:
+  </Grid>
+  <Grid xs={12} md={10} lg={11}>
+    <Select items={stateOptions} bind:selectedValue={updatedArticle.state} inputStyles="box-sizing: border-box;"></Select>
+  </Grid>
+</Grid>
+<br/>
+{#if updatedArticle.state.value == 'published'}
+  <Grid container gutter={12}>
+    <Grid xs={12} md={2} lg={1}>
+      Published Date:
+    </Grid>
+    <Grid xs={12} md={10} lg={11}>
+      <Datepicker
+      format={dateFormat}
+      bind:formattedSelected={updatedArticle.publishedDate}
+      bind:selected={selectedDate}
+      bind:dateChosen={isDateChosen}
+      highlightColor='#d74e4d'
+      dayBackgroundColor='#efefef'
+      dayTextColor='#333'
+      dayHighlightedBackgroundColor='#d74e4d'
+      dayHighlightedTextColor='#fff'
+      >
+        <button class='custom-button' on:click={printDate}>
+          {#if isDateChosen} Chosen: {updatedArticle.publishedDate} {:else} Pick a date {/if}
+        </button>
+      </Datepicker>
+    </Grid>
+  </Grid>
+  <br/>
+{/if}
+<Grid container gutter={12}>
+  <Grid xs={12} md={2} lg={1}>
+    Authors:
+  </Grid>
+  <Grid xs={12} md={10} lg={11}>
+    <Select items={contributors} isMulti={true} bind:selectedValue={updatedArticle.author}></Select>
+  </Grid>
+</Grid>
+<br/>
+<Grid container gutter={12}>
+  <Grid xs={12} md={2} lg={1}>
+    Categories:
+  </Grid>
+  <Grid xs={12} md={10} lg={11}>
+    <Select items={categories} isMulti={true} bind:selectedValue={updatedArticle.categories}></Select>
+  </Grid>
+</Grid>
+<br/>
+<Grid container gutter={12}>
+  <Grid xs={12} md={2} lg={1}>
+    Content Brief:
+  </Grid>
+  <Grid xs={12} md={10} lg={11}>
+    <form>
+      <TextArea 
+        bind:value={updatedArticle.content.brief}  
+        minRows={4}
+        maxRows={10}
+      />
+    </form>
+  </Grid>
+</Grid>
+<br/>
+<Grid container gutter={12}>
+  <Grid xs={12} md={2} lg={1}>
+    Content Extended:
+  </Grid>
+  <Grid xs={12} md={10} lg={11}>
+    <div class="editor-wrapper">
+      <div bind:this={editor}>
+        {@html article.content.extended}
+      </div>
     </div>
-    <div class="column1">
-      <button class="openbtn" on:click={() => sidebar_show = !sidebar_show}>☰ Open Sidebar</button>
-    </div>
-    <div class="column2">
-      <h1>Edit Article</h1>
-			<Grid container gutter={12}>
-        <Grid xs={12} md={2} lg={1}>
-          Title:
-        </Grid>
-        <Grid xs={12} md={10} lg={11}>
-          <input type="text" bind:value={updatedArticle.title} />
-        </Grid>
-      </Grid>
-      <br/>
-    	<Grid container gutter={12}>
-        <Grid xs={12} md={2} lg={1}>
-          Featured Image:
-        </Grid>
-        <Grid xs={12} md={10} lg={11}>
-          <input on:change={upload} type='file' >
-        </Grid>
-      </Grid>
-      <br/>
-      <Grid container gutter={12}>
-        <Grid xs={12} md={2} lg={1}>
-          State:
-        </Grid>
-        <Grid xs={12} md={10} lg={11}>
-          <Select items={stateOptions} bind:selectedValue={updatedArticle.state} inputStyles="box-sizing: border-box;"></Select>
-        </Grid>
-      </Grid>
-      <br/>
-      {#if updatedArticle.state.value == 'published'}
-        <Grid container gutter={12}>
-          <Grid xs={12} md={2} lg={1}>
-            Published Date:
-          </Grid>
-          <Grid xs={12} md={10} lg={11}>
-            <Datepicker
-            format={dateFormat}
-            bind:formattedSelected={updatedArticle.publishedDate}
-            bind:selected={selectedDate}
-            bind:dateChosen={isDateChosen}
-            highlightColor='#d74e4d'
-            dayBackgroundColor='#efefef'
-            dayTextColor='#333'
-            dayHighlightedBackgroundColor='#d74e4d'
-            dayHighlightedTextColor='#fff'
-            >
-              <button class='custom-button' on:click={printDate}>
-                {#if isDateChosen} Chosen: {updatedArticle.publishedDate} {:else} Pick a date {/if}
-              </button>
-            </Datepicker>
-          </Grid>
-        </Grid>
-        <br/>
-      {/if}
-      <Grid container gutter={12}>
-        <Grid xs={12} md={2} lg={1}>
-          Authors:
-        </Grid>
-        <Grid xs={12} md={10} lg={11}>
-          <Select items={contributors} isMulti={true} bind:selectedValue={updatedArticle.author}></Select>
-        </Grid>
-      </Grid>
-      <br/>
-      <Grid container gutter={12}>
-        <Grid xs={12} md={2} lg={1}>
-          Categories:
-        </Grid>
-        <Grid xs={12} md={10} lg={11}>
-          <Select items={categories} isMulti={true} bind:selectedValue={updatedArticle.categories}></Select>
-        </Grid>
-      </Grid>
-      <br/>
-      <Grid container gutter={12}>
-        <Grid xs={12} md={2} lg={1}>
-          Content Brief:
-        </Grid>
-        <Grid xs={12} md={10} lg={11}>
-          <form>
-            <TextArea 
-              bind:value={updatedArticle.content.brief}  
-              minRows={4}
-              maxRows={10}
-            />
-          </form>
-        </Grid>
-      </Grid>
-      <br/>
-			<Grid container gutter={12}>
-        <Grid xs={12} md={2} lg={1}>
-          Content Extended:
-        </Grid>
-        <Grid xs={12} md={10} lg={11}>
-          <div class="editor-wrapper">
-            <div bind:this={editor}>
-              {@html article.content.extended}
-            </div>
-          </div>
-          <br/>
-          <button class='savebtn' on:click|preventDefault={saveArticle}>Save</button>
-          <button class='deletebtn' on:click={deleteArticle}>Delete</button>
-        </Grid>
-      </Grid>
-    </div>
-  </div>
-</main>
+    <br/>
+    <button class='savebtn' on:click|preventDefault={saveArticle}>Save</button>
+    <button class='deletebtn' on:click={deleteArticle}>Delete</button>
+  </Grid>
+</Grid>

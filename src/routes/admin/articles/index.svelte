@@ -28,58 +28,18 @@
   * {
       box-sizing: border-box;
   }
-
-  .row {
-      display: flex;
-  }
-  main {
-      position: relative;
-      background-color: white;
-      margin: 0 auto;
-      box-sizing: border-box;
-  }
-  .column1 {
-      padding: 10px;
-      height: 100%;
-      flex: 15%;
-  }
-  .column2 {
-      flex: 85%;
-      padding: 10px;
-  }
-  .openbtn {
-    font-size: 13px;
-    cursor: pointer;
-    background-color: #d74e4d;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-  }
 </style>
 
 <svelte:head>
-	<title>Blog</title>
+	<title>Admin: Articles</title>
 </svelte:head>
 
-<main>
-  <div class="row">
-
-    <div class='side'>
-      <Sidebar bind:show={sidebar_show}/>
-    </div>
-    <div class="column1">
-      <button class="openbtn" on:click={() => sidebar_show = !sidebar_show}>☰ Open Sidebar</button>
-    </div>
-    <div class="column2">
-        <h1>Recent articles</h1>
-          <Modal>
-            <Content />
-          </Modal>
-          <ul>
-            {#each articles as article}
-              <li><a sapper:prefetch href='admin/articles/edit/{article.slug}'>{article.title}</a></li>
-            {/each}
-          </ul>
-    </div>
-  </div>
-</main>
+<h1>Recent articles</h1>
+<Modal>
+  <Content />
+</Modal>
+<ul>
+  {#each articles as article}
+    <li><a sapper:prefetch href='admin/articles/edit/{article.slug}'>{article.title}</a></li>
+  {/each}
+</ul>
