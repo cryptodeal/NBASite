@@ -17,7 +17,6 @@
 	}
 </script>
 <script>
-  import { onMount } from "svelte";
   import InfiniteScroll from "svelte-infinite-scroll";
   import dayjs from 'dayjs'
   let page = 1;

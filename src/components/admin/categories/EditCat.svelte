@@ -2,6 +2,8 @@
   import { getContext } from 'svelte';
   import { requiredValidator } from '../../../components/validators.js'
   import { createFieldValidator } from '../../../components/validation.js'
+  import { getNotificationsContext } from 'svelte-notifications';
+  const { addNotification } = getNotificationsContext();
   //export let message;
 	//export let hasForm = false;
 	export let onCancel = () => {};
@@ -36,9 +38,24 @@
         updated: updated
       })
     }).then(res => {
-      return res.status === 401 ? notifier.danger(`Authentication expired`)
-      : res.status === 409 ? notifier.danger(`Failed to update user`)
-      : res.status === 500 ? notifier.danger(`Server error`)
+      return res.status === 401 ? addNotification({
+          text: `Authentication Expired`,
+          position: 'bottom-center',
+          type: 'danger',
+          removeAfter: 4000
+        })
+      : res.status === 409 ? addNotification({
+          text: `Failed to Update Category`,
+          position: 'bottom-center',
+          type: 'danger',
+          removeAfter: 4000
+        })
+      : res.status === 500 ? addNotification({
+          text: `Server Error`,
+          position: 'bottom-center',
+          type: 'danger',
+          removeAfter: 4000
+        })
       : window.location.href= `admin/categories`
     })
   };

@@ -1,6 +1,5 @@
 <script>
   import { getContext } from 'svelte';
-  import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
   export let onCancel = () => {};
   const { close } = getContext('simple-modal');
   export let user;
@@ -40,9 +39,24 @@
         updated: updated
       })
     }).then(res => {
-      return res.status === 401 ? notifier.danger(`Authentication expired`)
-      : res.status === 409 ? notifier.danger(`Failed to update user`)
-      : res.status === 500 ? notifier.danger(`Server error`)
+      return res.status === 401 ? addNotification({
+          text: `Authentication Expired`,
+          position: 'bottom-center',
+          type: 'danger',
+          removeAfter: 4000
+        })
+      : res.status === 409 ? addNotification({
+          text: `Failed to Save Reviewed App`,
+          position: 'bottom-center',
+          type: 'danger',
+          removeAfter: 4000
+        })
+      : res.status === 500 ? addNotification({
+          text: `Server Error`,
+          position: 'bottom-center',
+          type: 'danger',
+          removeAfter: 4000
+        })
       : window.location.href= `admin/apps` 
 
     })
@@ -58,7 +72,6 @@
 	}
 </style>
 
-<NotificationDisplay bind:this={n} />
 <h3>Application Submitted By: {user.username}</h3>
 <h4>
   Application Status:

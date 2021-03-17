@@ -1,6 +1,7 @@
 <script>
   import { getContext } from 'svelte';
-  import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
+  import { getNotificationsContext } from 'svelte-notifications';
+  const { addNotification } = getNotificationsContext();
   export let onCancel = () => {};
   const { close } = getContext('simple-modal');
   export let email;
@@ -15,7 +16,6 @@
   if (first !== undefined && first !== null && first !== '') updated.name.first = first
   if (last !== undefined && last !== null && last !== '') updated.name.last = last
   if (scope !== undefined && scope !== null && scope !== '') updated.scope = scope
-  let n;
 	function _onCancel() {
 		onCancel();
 		close();
@@ -37,9 +37,24 @@
         updated
       })
     }).then(res => {
-      return res.status === 401 ? notifier.danger(`Authentication expired`)
-      : res.status === 409 ? notifier.danger(`Failed to update user`)
-      : res.status === 500 ? notifier.danger(`Server error`)
+      return res.status === 401 ? addNotification({
+          text: `Authentication Expired`,
+          position: 'bottom-center',
+          type: 'danger',
+          removeAfter: 4000
+        })
+      : res.status === 409 ? addNotification({
+          text: `Failed to Update User`,
+          position: 'bottom-center',
+          type: 'danger',
+          removeAfter: 4000
+        })
+      : res.status === 500 ? addNotification({
+          text: `Server Error`,
+          position: 'bottom-center',
+          type: 'danger',
+          removeAfter: 4000
+        })
       : window.location.href= `admin/users` 
 
     })
@@ -55,7 +70,6 @@
 	}
 </style>
 
-<NotificationDisplay bind:this={n} />
 <h3>{email}</h3>
 <form>
   Permissions: <select bind:value={updated.scope}>

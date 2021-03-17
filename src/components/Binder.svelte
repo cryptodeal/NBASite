@@ -1,6 +1,5 @@
 <script>
   export let tabs;
-  import Grid from 'svelte-grid-responsive'
   import Image from 'svelte-image'; 
 	let activeTab = 0;
 	$: activeComponent = tabs[activeTab].component;

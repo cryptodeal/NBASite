@@ -3,7 +3,6 @@ import { fly } from 'svelte/transition';
 //import Modal from './Modal.svelte';
 
 export let show = false;
-let modal_show = false;
 </script>
 <style>
 nav {

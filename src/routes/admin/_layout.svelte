@@ -1,9 +1,7 @@
 <script>
   import {socket} from '../../components/ws/socketStore'
   import Sidebar from '../../components/admin/Sidebar.svelte'
-  import {NotificationDisplay, notifier} from '@beyonk/svelte-notifications'
   let sidebar_show = false;
-  let n;
   function wsTest(){
     $socket.json({message: `test~!!!`})
   }
@@ -38,16 +36,15 @@
   }
 </style>
 
-<NotificationDisplay bind:this={n} />
-  <div class="row">
-    <div class='side'>
-      <Sidebar bind:show={sidebar_show}/>
-    </div>
-    <div class="column1">
-      <button class="openbtn" on:click={() => sidebar_show = !sidebar_show}>☰ Open Sidebar</button>
-    </div>
-    <div class="column2">
-      <button id="socketTest" type="button" on:click={wsTest}>Test ws.send()</button>
-      <slot></slot>
-    </div>
+<div class="row">
+  <div class='side'>
+    <Sidebar bind:show={sidebar_show}/>
   </div>
+  <div class="column1">
+    <button class="openbtn" on:click={() => sidebar_show = !sidebar_show}>☰ Open Sidebar</button>
+  </div>
+  <div class="column2">
+    <button id="socketTest" type="button" on:click={wsTest}>Test ws.send()</button>
+    <slot></slot>
+  </div>
+</div>

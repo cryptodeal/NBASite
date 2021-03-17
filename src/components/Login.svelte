@@ -1,20 +1,13 @@
 <script>
-  import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
   import { emailValidator, requiredValidator } from './validators.js'
   import { createFieldValidator } from './validation.js'
-
+  import { getNotificationsContext } from 'svelte-notifications';
+  const { addNotification } = getNotificationsContext();
   const [ emailValidity, emailValidate ] = createFieldValidator(requiredValidator(), emailValidator())
-  const [ pwdValidity, pwdValidate ] = createFieldValidator(requiredValidator())
-  let n;
-  
+  const [ pwdValidity, pwdValidate ] = createFieldValidator(requiredValidator())  
   let email = null;
   let password = null;
-
-function login (email, pwd) {
-  console.log(JSON.stringify({
-        email,
-        pwd
-      }))
+  function login (email, pwd) {
     fetch('http://localhost:8000/api/session', {
       method: 'POST',
       mode: 'cors',
@@ -28,7 +21,12 @@ function login (email, pwd) {
       })
     }).then(res => {
       if(res.status === 401){
-        notifier.danger('Authentication failed')
+        addNotification({
+          text: 'Authentication Failed',
+          position: 'bottom-center',
+          type: 'danger',
+          removeAfter: 4000
+        })
       } else {
         window.location.href = 'profile'
       }
@@ -54,7 +52,6 @@ function login (email, pwd) {
 	}
 </style>
 
-<NotificationDisplay bind:this={n} />
 <form on:submit|preventDefault={login(email, password)}>
   <label for='email'>Email</label>
   <input class='input'

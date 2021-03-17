@@ -1,10 +1,10 @@
 <script>
   //profile included so user info can be submitted w/ form automatically w/o requiring user to re-enter info
   export let profile;
-  import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
   import { requiredValidator } from '../validators.js'
   import { createFieldValidator } from '../validation.js'
-
+  import { getNotificationsContext } from 'svelte-notifications';
+  const { addNotification } = getNotificationsContext();
   const [ justificationValidity, justificationValidate ] = createFieldValidator(requiredValidator())
   const [ qualificationsValidity, qualificationsValidate ] = createFieldValidator(requiredValidator())
   let n;
@@ -32,7 +32,12 @@ function submitApplication(email, password) {
       })
     }).then(res => {
       if(res.status === 401){
-        notifier.danger('Authentication failed; Application not submitted')
+        addNotification({
+          text: 'Authentication Failed: App Not Submitted',
+          position: 'bottom-center',
+          type: 'danger',
+          removeAfter: 4000
+        })
       } else {
         window.location.href = 'profile'
         //console.log('finish fetch request')
@@ -59,7 +64,6 @@ function submitApplication(email, password) {
 	}
 </style>
 
-<NotificationDisplay bind:this={n} />
 <h2>Site Role Application</h2>
 <form on:submit|preventDefault={submitApplication(app)}>
   <label for='justification'>Justification for New Role:</label>

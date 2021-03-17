@@ -16,14 +16,14 @@
 	export let article;
   export let contributors;
   export let categories;
-	import { goto, stores } from '@sapper/app'
   import { onMount } from 'svelte'
   import Select from 'svelte-select';
-  import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
   import TextArea from "../../../../components/admin/articles/edit/TextAreaAutosize.svelte";
   import Grid from 'svelte-grid-responsive'
   import 'quill/dist/quill.snow.css'
   import Datepicker from 'svelte-calendar'
+  import { getNotificationsContext } from 'svelte-notifications';
+  const { addNotification } = getNotificationsContext();
   let updatedArticle = {
     content: {},
   }
@@ -70,7 +70,12 @@
       body: fd
     }).then(res => res.json())
     .then(result => {
-      console.log(result)
+      addNotification({
+          text: 'Image Upload Success',
+          position: 'bottom-center',
+          type: 'success',
+          removeAfter: 4000
+      })
       return result[0].location
     })
   }
@@ -261,9 +266,19 @@
       })
     }).then(res => {
       if(res.status === 409){
-        notifier.danger('Post already exists')
+        addNotification({
+          text: 'Post Already Exists',
+          position: 'bottom-center',
+          type: 'danger',
+          removeAfter: 4000
+        })
       } else if(res.status === 201){
-        notifier.success('Post saved successfully')
+        addNotification({
+          text: 'Post Saved Successfully',
+          position: 'bottom-center',
+          type: 'success',
+          removeAfter: 4000
+        })
       }
     })
   };
@@ -297,9 +312,24 @@
       method: 'POST',
       body: fd
     }).then(res => {
-      return res.status === 400 ? notifier.danger(`File not sent in upload`)
-      : res.status === 500 ? notifier.danger(`Upload failed`)
-      : notifier.success(`Upload successful`)
+      return res.status === 400 ? addNotification({
+          text: `Invalid File Selection`,
+          position: 'bottom-center',
+          type: 'danger',
+          removeAfter: 4000
+        })
+      : res.status === 500 ? addNotification({
+          text: `Upload Failed`,
+          position: 'bottom-center',
+          type: 'danger',
+          removeAfter: 4000
+        })
+      : addNotification({
+          text: 'Upload Successful',
+          position: 'bottom-center',
+          type: 'success',
+          removeAfter: 4000
+        })
     });
   }
 </script>

@@ -18,16 +18,12 @@
   export let items;
   import Modal from 'svelte-simple-modal'
   import Grid from 'svelte-grid-responsive'
-  import Sidebar from '../../components/admin/Sidebar.svelte'
   import VirtualList from '@sveltejs/svelte-virtual-list'
   import UserListItem from '../../components/admin/users/UserListItem.svelte'
-  import { goto, stores } from '@sapper/app'
   import {socketWritableStore} from '../../components/ws/socketStore'
   $: console.log($socketWritableStore)
-  let sidebar_show = false;
   let emailSearch = '';
   let scopeSearch = '';
-  let useritemlist_show = false;
   $: filteredList = items.filter(item => item.email.toLowerCase().indexOf(emailSearch.toLowerCase()) !== -1 && item.scope.toLowerCase().indexOf(scopeSearch.toLowerCase()) !== -1);
   let start;
   let end;

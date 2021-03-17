@@ -5,6 +5,7 @@
   import {guard} from "@beyonk/sapper-rbac";
   import {tick} from "svelte";
   import {stores, goto} from "@sapper/app";
+  import Notifications from 'svelte-notifications';
   const options = {
     routes,
     deny: () => goto("/")
@@ -44,15 +45,17 @@
     object-fit: scale-down;
   }
 </style>
-<div class='logo-container'>
-  <Image src='title.png' alt="Tankie News Network logo"/>
-</div>
-<Nav {segment} />
+<Notifications>
+  <div class='logo-container'>
+    <Image src='title.png' alt="Tankie News Network logo"/>
+  </div>
+  <Nav {segment} />
 
-{#if segment === 'admin'}
-  <slot></slot>
-{:else}
-<main>
-  <slot></slot>
-</main>
-{/if}
+  {#if segment === 'admin'}
+    <slot></slot>
+  {:else}
+  <main>
+    <slot></slot>
+  </main>
+  {/if}
+</Notifications>

@@ -1,8 +1,8 @@
 <script>
-  import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
   import { emailValidator, requiredValidator, pwdSpecCharValidator } from './validators.js'
   import { createFieldValidator } from './validation.js'
-
+  import { getNotificationsContext } from 'svelte-notifications';
+  const { addNotification } = getNotificationsContext();
   const [ emailValidity, emailValidate ] = createFieldValidator(requiredValidator(), emailValidator())
   const [ pwdValidity, pwdValidate ] = createFieldValidator(requiredValidator(), pwdSpecCharValidator())
   //TODO: Write async validator to check username availability and notify client side
@@ -33,7 +33,12 @@
       })
     }).then(res => {
       if(res.status === 409){
-        notifier.danger('Email already registered')
+        addNotification({
+          text: `Email Taken`,
+          position: 'bottom-center',
+          type: 'danger',
+          removeAfter: 4000
+        })
       } else {
         window.location.href= 'profile'
       }
@@ -62,7 +67,6 @@
 	}
 </style>
 
-<NotificationDisplay bind:this={n} />
 <form on:submit|preventDefault={register(email, password, username)}>
   <label for='username'>Username</label>
     <input class='input'

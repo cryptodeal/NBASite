@@ -26,6 +26,9 @@ exports.login = (req, res) => {
           })
           res.end()
       }).catch(console.error)
+    } else {
+      res.status(401)
+      res.end()
     }
   })
 };

@@ -24,20 +24,30 @@
   export let profile
   export let apps
   export let userSub
+  import { goto } from '@sapper/app';
   import Modal from 'svelte-simple-modal'
   import dayjs from 'dayjs'
   import ScopeContent from '../components/profile/ScopeContent.svelte'
   import ReviseAppContent from '../components/profile/ReviseAppContent.svelte'
-  import {NotificationDisplay, notifier} from '@beyonk/svelte-notifications'
   import {socket, socketWritableStore} from '../components/ws/socketStore'
+  import { getNotificationsContext } from 'svelte-notifications';
+  const { addNotification } = getNotificationsContext();
   $: console.log($socketWritableStore)
-  let n;
   let newSub = '';
   let edit = false;
   let user = {
     username: profile.username,
     email: profile.email,
     subs: userSub.subscriptions
+  }
+  const saveAndReturn = async () => {
+	  addNotification({
+      text: `Profile Saved Successfully`,
+      position: 'bottom-center',
+      type: 'success',
+      removeAfter: 4000
+    })
+    edit = false
   }
   console.log(user.subs)
   function wsTest(){
@@ -67,10 +77,25 @@
         updated: user
       })
     }).then(res => {
-      return res.status === 401 ? notifier.danger(`Authentication expired`)
-      : res.status === 409 ? notifier.danger(`Failed to update profile`)
-      : res.status === 500 ? notifier.danger(`Server error`)
-      : window.location.href = `/profile`
+      return res.status === 401 ? addNotification({
+          text: `Authentication Expired`,
+          position: 'bottom-center',
+          type: 'danger',
+          removeAfter: 4000
+        })
+      : res.status === 409 ? addNotification({
+          text: `Failed to Update Profile`,
+          position: 'bottom-center',
+          type: 'danger',
+          removeAfter: 4000
+        })
+      : res.status === 500 ? addNotification({
+          text: `Server Error`,
+          position: 'bottom-center',
+          type: 'danger',
+          removeAfter: 4000
+        })
+      : saveAndReturn()
     })
   }
 </script>
@@ -89,7 +114,6 @@ tr:nth-child(even) {
 }
 </style>
 
-<NotificationDisplay bind:this={n} />
 <h1>Welcome, {profile.username}</h1>
 <button id="socketTest" type="button" on:click={wsTest}>Test ws.send()</button>
 
@@ -129,9 +153,9 @@ tr:nth-child(even) {
 <button id="edit" type="button" on:click={editProfile}>Enable Edits</button>
 <dl>
   <dt>Email:</dt>
-  <dd>{profile.email}</dd>
+  <dd>{user.email}</dd>
   <dt>Username:</dt>
-  <dd>{profile.username}</dd>
+  <dd>{user.username}</dd>
   {#if user.subs.length}
     <dt>Subscriptions:</dt>
   {#each user.subs as sub}
