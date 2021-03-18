@@ -9,14 +9,18 @@ import { terser } from 'rollup-plugin-terser';
 import config from 'sapper/config/rollup.js';
 import pkg from './package.json';
 import image from 'svelte-image';
+import json from '@rollup/plugin-json';
 
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
+const D3_WARNING = /Circular dependency.*d3-interpolate/;
 
 const onwarn = (warning, onwarn) =>
 	(warning.code === 'MISSING_EXPORT' && /'preload'/.test(warning.message)) ||
 	(warning.code === 'CIRCULAR_DEPENDENCY' && /[/\\]@sapper[/\\]/.test(warning.message)) ||
+  //silence d3-interpolate circular dependencies
+  (warning.code === 'CIRCULAR_DEPENDENCY' && /[/\\]d3-interpolate[/\\]/.test(warning.message)) ||
 	onwarn(warning);
 
 export default {
@@ -29,6 +33,7 @@ export default {
 				'process.browser': true,
 				'process.env.NODE_ENV': JSON.stringify(mode)
       }),
+      json(),
 			svelte({
 				compilerOptions: {
 					dev,
@@ -85,6 +90,7 @@ export default {
 				'process.browser': false,
 				'process.env.NODE_ENV': JSON.stringify(mode)
       }),
+      json(),
 			svelte({
 				compilerOptions: {
 					dev,
