@@ -14,7 +14,6 @@ import json from '@rollup/plugin-json';
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
-const D3_WARNING = /Circular dependency.*d3-interpolate/;
 
 const onwarn = (warning, onwarn) =>
 	(warning.code === 'MISSING_EXPORT' && /'preload'/.test(warning.message)) ||
