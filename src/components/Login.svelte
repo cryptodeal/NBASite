@@ -1,28 +1,23 @@
 <script>
-  //import { emailValidator, requiredValidator } from './validators.js'
-  //import { createFieldValidator } from './validation.js'
   import { getNotificationsContext } from 'svelte-notifications';
   import { Form, Field, ErrorMessage } from "svelte-forms-lib";
   import * as yup from 'yup';
-  import Grid from 'svelte-grid-responsive'
   const { addNotification } = getNotificationsContext();
-  //const [ emailValidity, emailValidate ] = createFieldValidator(requiredValidator(), emailValidator())
-  //const [ pwdValidity, pwdValidate ] = createFieldValidator(requiredValidator())  
   const formProps = {
-      initialValues: { email: "", pwd: "" },
+      initialValues: { email: "", password: "" },
       validationSchema: yup.object().shape({
         email: yup
           .string()
           .email()
           .required(),
-        pwd: yup
+        password: yup
           .string()
-          .required('password is a requied field')
+          .required()
+          .min(8)
           .matches(
             /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-            "Requirements: 8 characters containing uppercase, lowercase, number, and special character"
-          )
-          .matches()
+            "Must Contain at Least One Uppercase, Lowercase, Number, and Special Character"
+          ),
       }),
       onSubmit: values => {
         fetch('http://localhost:8000/api/session', {
@@ -114,7 +109,6 @@
     border-color: var(--grey);
   }
   :global(.form-error){
-    display: block;
     font-size: 12px;
     color: var(--red);
     margin-top: 10px;
@@ -125,23 +119,30 @@
     flex-direction: column;
     align-items: center;
     margin-top: 0;
+    width: 100%;
+  }
+  .login-container {
+    width: 100%;
   }
 </style>
+<div class='login-container'>
+  <Form class='content' {...formProps}>
+    <div>
+      <label for='email'>email</label>
+      <Field class='form-field' name="email" type="email" />
+      <ErrorMessage class='form-error' name="email" />
+    </div>
 
-<Form class='content' {...formProps}>
-  <div>
-    <label for='email'>email</label>
-    <Field class='form-field' name="email" type="email" />
-    <ErrorMessage class='form-error' name="email" />
-  </div>
+    <div>
+      <label for='password'>password</label>
+      <Field class='form-field' name="password" type='password'/>
+      <ErrorMessage class='form-error' name="password" />
+    </div>
+    
+    <flex-container>
+      <button type="submit">submit</button>
+    </flex-container>
+  </Form>
+</div>
 
-  <div>
-    <label for='pwd'>password</label>
-    <Field class='form-field' name="pwd" type='password'/>
-    <ErrorMessage class='form-error' name="pwd" />
-  </div>
-  <flex-container>
-    <button type="submit">submit</button>
-  </flex-container>
-</Form>
 

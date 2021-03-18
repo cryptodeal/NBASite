@@ -1,10 +1,10 @@
 const { validateUser, createToken } = require('../../utils/mongoose');
 
 exports.login = (req, res) => {
-  const {email, pwd} = req.body
-  console.log(`password: ${pwd}`)
+  const {email, password} = req.body
+  console.log(`password: ${password}`)
   console.log(`email: ${email}`)
-  validateUser(email, pwd, function(err, user){
+  validateUser(email, password, function(err, user){
     if (err){
       console.log(err)
       res.status(500)

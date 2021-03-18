@@ -2,11 +2,11 @@ const { createUser, createToken } = require('../../utils/mongoose');
 
 exports.signUp = async (req, res) => {
   //REMOVE CONSOLE.LOG EMAIL AND PASSWORD BEFORE DEPLOYING TO PRODUCTION
-  const {email, pwd, username} = req.body;
+  const {email, password, username} = req.body;
   console.log(email)
-  console.log(pwd)
+  console.log(password)
   console.log(username)
-  createUser(email, username, pwd, function(err, user){
+  createUser(email, username, password, function(err, user){
       if(err){
         console.log(err)
         res.status(500)
