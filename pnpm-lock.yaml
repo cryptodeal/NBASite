@@ -1,5 +1,6 @@
 dependencies:
   compression: 1.7.4
+  d3-hexbin: 0.2.2
   polka: 1.0.0-next.11
   quill: 1.3.7
   sirv: 1.0.11
@@ -12,12 +13,12 @@ devDependencies:
   '@babel/preset-env': 7.13.10_@babel+core@7.13.10
   '@babel/runtime': 7.13.10
   '@beyonk/sapper-rbac': 0.0.3
-  '@rollup/plugin-babel': 5.3.0_2458b0d3b536b80a017fd4979c6d94ae
-  '@rollup/plugin-commonjs': 17.1.0_rollup@2.41.4
-  '@rollup/plugin-json': 4.1.0_rollup@2.41.4
-  '@rollup/plugin-node-resolve': 11.2.0_rollup@2.41.4
-  '@rollup/plugin-replace': 2.4.1_rollup@2.41.4
-  '@rollup/plugin-url': 6.0.0_rollup@2.41.4
+  '@rollup/plugin-babel': 5.3.0_996731e2ba6c2ee3911af03b6fc5e2db
+  '@rollup/plugin-commonjs': 17.1.0_rollup@2.42.0
+  '@rollup/plugin-json': 4.1.0_rollup@2.42.0
+  '@rollup/plugin-node-resolve': 11.2.0_rollup@2.42.0
+  '@rollup/plugin-replace': 2.4.1_rollup@2.42.0
+  '@rollup/plugin-url': 6.0.0_rollup@2.42.0
   '@sveltejs/svelte-virtual-list': 3.0.1
   basketball-court: 1.1.2
   cookie-parser: 1.4.5
@@ -25,13 +26,14 @@ devDependencies:
   jsonwebtoken: 8.5.1
   layercake: 4.1.0_svelte@3.35.0
   npm-run-all: 4.1.5
-  rollup: 2.41.4
-  rollup-plugin-svelte: 7.1.0_rollup@2.41.4+svelte@3.35.0
-  rollup-plugin-terser: 7.0.2_rollup@2.41.4
+  rollup: 2.42.0
+  rollup-plugin-svelte: 7.1.0_rollup@2.42.0+svelte@3.35.0
+  rollup-plugin-terser: 7.0.2_rollup@2.42.0
   sapper: 0.29.1_svelte@3.35.0
   sockette: 2.0.6
   svelte: 3.35.0
   svelte-calendar: 2.0.4
+  svelte-grid: 4.0.1
   svelte-grid-responsive: 0.3.0
   svelte-image: github.com/cryptodeal/svelte-image/865708bb773fd4fc6c3f81e8dbd4561d14f294a8
   svelte-infinite-scroll: 1.5.2
@@ -1369,12 +1371,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-3NsZsJIA/22P3QUyrEDNA2D133H4j224twJrdipXN38dpnIOzAbUDtOwkcJ5pXmn75w7LSQDjA4tO9dm1XlqlA==
-  /@rollup/plugin-babel/5.3.0_2458b0d3b536b80a017fd4979c6d94ae:
+  /@rollup/plugin-babel/5.3.0_996731e2ba6c2ee3911af03b6fc5e2db:
     dependencies:
       '@babel/core': 7.13.10
       '@babel/helper-module-imports': 7.12.13
-      '@rollup/pluginutils': 3.1.0_rollup@2.41.4
-      rollup: 2.41.4
+      '@rollup/pluginutils': 3.1.0_rollup@2.42.0
+      rollup: 2.42.0
     dev: true
     engines:
       node: '>= 10.0.0'
@@ -1387,16 +1389,16 @@ packages:
         optional: true
     resolution:
       integrity: sha512-9uIC8HZOnVLrLHxayq/PTzw+uS25E14KPUBh5ktF+18Mjo5yK0ToMMx6epY0uEgkjwJw0aBW4x2horYXh8juWw==
-  /@rollup/plugin-commonjs/17.1.0_rollup@2.41.4:
+  /@rollup/plugin-commonjs/17.1.0_rollup@2.42.0:
     dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.41.4
+      '@rollup/pluginutils': 3.1.0_rollup@2.42.0
       commondir: 1.0.1
       estree-walker: 2.0.2
       glob: 7.1.6
       is-reference: 1.2.1
       magic-string: 0.25.7
       resolve: 1.20.0
-      rollup: 2.41.4
+      rollup: 2.42.0
     dev: true
     engines:
       node: '>= 8.0.0'
@@ -1404,24 +1406,24 @@ packages:
       rollup: ^2.30.0
     resolution:
       integrity: sha512-PoMdXCw0ZyvjpCMT5aV4nkL0QywxP29sODQsSGeDpr/oI49Qq9tRtAsb/LbYbDzFlOydVEqHmmZWFtXJEAX9ew==
-  /@rollup/plugin-json/4.1.0_rollup@2.41.4:
+  /@rollup/plugin-json/4.1.0_rollup@2.42.0:
     dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.41.4
-      rollup: 2.41.4
+      '@rollup/pluginutils': 3.1.0_rollup@2.42.0
+      rollup: 2.42.0
     dev: true
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0
     resolution:
       integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==
-  /@rollup/plugin-node-resolve/11.2.0_rollup@2.41.4:
+  /@rollup/plugin-node-resolve/11.2.0_rollup@2.42.0:
     dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.41.4
+      '@rollup/pluginutils': 3.1.0_rollup@2.42.0
       '@types/resolve': 1.17.1
       builtin-modules: 3.2.0
       deepmerge: 4.2.2
       is-module: 1.0.0
       resolve: 1.20.0
-      rollup: 2.41.4
+      rollup: 2.42.0
     dev: true
     engines:
       node: '>= 10.0.0'
@@ -1429,22 +1431,22 @@ packages:
       rollup: ^1.20.0||^2.0.0
     resolution:
       integrity: sha512-qHjNIKYt5pCcn+5RUBQxK8krhRvf1HnyVgUCcFFcweDS7fhkOLZeYh0mhHK6Ery8/bb9tvN/ubPzmfF0qjDCTA==
-  /@rollup/plugin-replace/2.4.1_rollup@2.41.4:
+  /@rollup/plugin-replace/2.4.1_rollup@2.42.0:
     dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.41.4
+      '@rollup/pluginutils': 3.1.0_rollup@2.42.0
       magic-string: 0.25.7
-      rollup: 2.41.4
+      rollup: 2.42.0
     dev: true
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0
     resolution:
       integrity: sha512-XwC1oK5rrtRJ0tn1ioLHS6OV5JTluJF7QE1J/q1hN3bquwjnVxjtMyY9iCnoyH9DQbf92CxajB3o98wZbP3oAQ==
-  /@rollup/plugin-url/6.0.0_rollup@2.41.4:
+  /@rollup/plugin-url/6.0.0_rollup@2.42.0:
     dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.41.4
+      '@rollup/pluginutils': 3.1.0_rollup@2.42.0
       make-dir: 3.1.0
       mime: 2.5.2
-      rollup: 2.41.4
+      rollup: 2.42.0
     dev: true
     engines:
       node: '>=10.0.0'
@@ -1452,12 +1454,12 @@ packages:
       rollup: ^1.20.0||^2.0.0
     resolution:
       integrity: sha512-UHGyoo3EbLufCZtXon/baNf75PAYT+Gs/NUgFMx2ZaDQ314PKNP0pJTrpbhDqFkZADzpkqJWyQOfJ2Nd6Qk4TA==
-  /@rollup/pluginutils/3.1.0_rollup@2.41.4:
+  /@rollup/pluginutils/3.1.0_rollup@2.42.0:
     dependencies:
       '@types/estree': 0.0.39
       estree-walker: 1.0.1
       picomatch: 2.2.2
-      rollup: 2.41.4
+      rollup: 2.42.0
     dev: true
     engines:
       node: '>= 8.0.0'
@@ -1908,6 +1910,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-Ab3S6XuE/Q+flY96HXT0jOXcM4EAClYFnRGY5zsjRGNy6qCYrQsMffs7cV5Q9xejb35zxW5hf/guKw34kvIKsA==
+  /d3-hexbin/0.2.2:
+    dev: false
+    resolution:
+      integrity: sha1-nFg32s/UcasFM3qeke8Qv8T5iDE=
   /d3-interpolate/2.0.1:
     dependencies:
       d3-color: 2.0.0
@@ -2656,6 +2662,10 @@ packages:
     dev: true
     resolution:
       integrity: sha1-DdOXEhPHxW34gJd9UEyI+0cal6w=
+  /lodash.throttle/4.1.1:
+    dev: true
+    resolution:
+      integrity: sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
   /lodash/4.17.20:
     dev: true
     resolution:
@@ -3261,10 +3271,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-wENBPt4ySzg4ybFQW2TT1zMQucPK95HSh/nq2CFTZVOGut2+pQvSsgtda4d26YrYcr067wjbmzOG8byDPBX63A==
-  /rollup-plugin-svelte/7.1.0_rollup@2.41.4+svelte@3.35.0:
+  /rollup-plugin-svelte/7.1.0_rollup@2.42.0+svelte@3.35.0:
     dependencies:
       require-relative: 0.8.7
-      rollup: 2.41.4
+      rollup: 2.42.0
       rollup-pluginutils: 2.8.2
       svelte: 3.35.0
     dev: true
@@ -3275,11 +3285,11 @@ packages:
       svelte: '>=3.5.0'
     resolution:
       integrity: sha512-vopCUq3G+25sKjwF5VilIbiY6KCuMNHP1PFvx2Vr3REBNMDllKHFZN2B9jwwC+MqNc3UPKkjXnceLPEjTjXGXg==
-  /rollup-plugin-terser/7.0.2_rollup@2.41.4:
+  /rollup-plugin-terser/7.0.2_rollup@2.42.0:
     dependencies:
       '@babel/code-frame': 7.12.13
       jest-worker: 26.6.2
-      rollup: 2.41.4
+      rollup: 2.42.0
       serialize-javascript: 4.0.0
       terser: 5.6.0
     dev: true
@@ -3293,7 +3303,7 @@ packages:
     dev: true
     resolution:
       integrity: sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==
-  /rollup/2.41.4:
+  /rollup/2.42.0:
     dev: true
     engines:
       node: '>=10.0.0'
@@ -3301,7 +3311,7 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
     resolution:
-      integrity: sha512-f9IHfMO8p2Y8OdisI7Oj3oKkPuaQ6cgSwYqAi0TDvP3w2p+oX1VejX/w28a1h8WTnrapzfO5d4Uqhww+gL0b0g==
+      integrity: sha512-P9bJnaZ2P0hawoJo+Jto8YZZqil9URogNVE4KJeyj6wrUSDIbdMvmj7CsyEFwdXu/I5SiWEzB1hfmLeMldH6ww==
   /safe-buffer/5.1.2:
     resolution:
       integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==
@@ -3607,6 +3617,12 @@ packages:
     dev: true
     resolution:
       integrity: sha512-CRS3uDvib1XyUYMJMpHC6Pst/AH7HC+YrsXSJf03oslv2TD7cFoFB2Q2KZfifQUrmhWzURwJwJKXOoZY5gjs9g==
+  /svelte-grid/4.0.1:
+    dependencies:
+      lodash.throttle: 4.1.1
+    dev: true
+    resolution:
+      integrity: sha512-bJkD/dNi/b6ssGS1EhFrh51MHSaxPHV35uMP+GXRfsmyHys3GBkt3lnd45a0/xbyhCvanDoIQ3Nq6RmJF3J3EQ==
   /svelte-infinite-scroll/1.5.2:
     dev: true
     resolution:
@@ -3929,13 +3945,14 @@ specifiers:
   basketball-court: ^1.1.2
   compression: ^1.7.4
   cookie-parser: ^1.4.5
+  d3-hexbin: ^0.2.2
   dayjs: ^1.10.4
   jsonwebtoken: ^8.5.1
   layercake: ^4.1.0
   npm-run-all: ^4.1.5
   polka: next
   quill: ^1.3.7
-  rollup: ^2.41.4
+  rollup: ^2.42.0
   rollup-plugin-svelte: ^7.1.0
   rollup-plugin-terser: ^7.0.2
   sapper: ^0.29.1
@@ -3944,6 +3961,7 @@ specifiers:
   svelte: ^3.35.0
   svelte-calendar: ^2.0.4
   svelte-forms-lib: ^1.9.0
+  svelte-grid: ^4.0.1
   svelte-grid-responsive: ^0.3.0
   svelte-image: git+https://github.com/cryptodeal/svelte-image.git
   svelte-infinite-scroll: ^1.5.2
