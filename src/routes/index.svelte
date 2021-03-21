@@ -1,8 +1,8 @@
 <script>
 	import {LayerCake, Svg}  from 'layercake';
-	import Hexbin from '../components/dataviz/svg/shotmap/hexbin/hexbin.svelte'
-	import Court from '../components/dataviz/svg/court.svelte'
-	import {points} from '../components/dataviz/test/points.js'
+	import Hexbin from '@components/dataviz/svg/shotmap/hexbin/hexbin.svelte'
+	import Court from '@components/dataviz/svg/court/index.svelte'
+	import {points} from '@components/dataviz/test/points.js'
 </script>
 
 <style>
@@ -17,7 +17,7 @@
     height: 100%;
 	}
 </style>
-
+<h1>Keldon Johnson Career Shotmap</h1>
 <div class="dimensions-container">
   <div class="chart-container">
     <LayerCake

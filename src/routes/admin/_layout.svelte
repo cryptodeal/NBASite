@@ -1,6 +1,6 @@
 <script>
-  import {socket} from '../../components/ws/socketStore'
-  import Sidebar from '../../components/admin/Sidebar.svelte'
+  import {socket} from '@components/ws/socketStore'
+  import Sidebar from '@components/admin/Sidebar.svelte'
   let sidebar_show = false;
   function wsTest(){
     $socket.json({message: `test~!!!`})

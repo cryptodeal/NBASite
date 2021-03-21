@@ -4,7 +4,7 @@ export const hexbinConfig = {
 	// bin size with regards to courth width/height (ft)
 	hexagonRadius: 9,
 	// discrete hexagon size values that radius value is mapped to
-	hexagonRadiusSizes: [3, 6, 9],
+	hexagonRadiusSizes: [6, 7.5, 9],
 	// how many points in a bin to consider it while building radius scale
 	hexagonRadiusThreshold: 2,	
 }

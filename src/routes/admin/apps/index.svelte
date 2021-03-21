@@ -16,10 +16,9 @@
     import Modal from 'svelte-simple-modal'
     import Grid from 'svelte-grid-responsive'
     import VirtualList from '@sveltejs/svelte-virtual-list'
-    import AppListItem from '../../../components/admin/apps/AppListItem.svelte'
+    import AppListItem from '@components/admin/apps/AppListItem.svelte'
     let emailSearch = '';
     let scopeSearch = '';
-    let useritemlist_show = false;
 	  $: filteredList = apps.filter(app => app.user.email.toLowerCase().indexOf(emailSearch.toLowerCase()) !== -1 && app.scope.toLowerCase().indexOf(scopeSearch.toLowerCase()) !== -1);
 	  let start;
     let end;

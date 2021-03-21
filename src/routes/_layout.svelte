@@ -1,5 +1,5 @@
 <script>
-  import Nav from "../components/Nav.svelte";
+  import Nav from "@components/Nav.svelte";
   import Image from "svelte-image";
   import routes from "../config/routes.js";
   import {guard} from "@beyonk/sapper-rbac";

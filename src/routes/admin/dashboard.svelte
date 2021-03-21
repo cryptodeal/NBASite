@@ -1,5 +1,5 @@
 <script>
-  import {socketWritableStore} from '../../components/ws/socketStore'
+  import {socketWritableStore} from '@components/ws/socketStore'
   import { getNotificationsContext } from 'svelte-notifications';
   const { addNotification } = getNotificationsContext();
   $: console.log($socketWritableStore)

@@ -16,14 +16,14 @@
 	export let article;
   export let contributors;
   export let categories;
-  import { onMount } from 'svelte'
+  import {onMount} from 'svelte'
   import Select from 'svelte-select';
-  import TextArea from "../../../../components/admin/articles/edit/TextAreaAutosize.svelte";
+  import TextArea from "@components/admin/articles/edit/TextAreaAutosize.svelte";
   import Grid from 'svelte-grid-responsive'
   import 'quill/dist/quill.snow.css'
   import Datepicker from 'svelte-calendar'
-  import { getNotificationsContext } from 'svelte-notifications';
-  const { addNotification } = getNotificationsContext();
+  import {getNotificationsContext} from 'svelte-notifications';
+  const {addNotification} = getNotificationsContext();
   let updatedArticle = {
     content: {},
   }

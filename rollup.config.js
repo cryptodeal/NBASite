@@ -10,6 +10,7 @@ import config from 'sapper/config/rollup.js';
 import pkg from './package.json';
 import image from 'svelte-image';
 import json from '@rollup/plugin-json';
+import alias from '@rollup/plugin-alias';
 
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
@@ -31,6 +32,12 @@ export default {
         preventAssignment: true,
 				'process.browser': true,
 				'process.env.NODE_ENV': JSON.stringify(mode)
+      }),
+      alias({
+        resolve: ['.js', '.svelte', '.json'], // optional, by default this will just look for .js files or folders
+        entries: [
+          { find: '@components', replacement: path.resolve(__dirname, 'src/components') },
+        ]
       }),
       json(),
 			svelte({
@@ -88,6 +95,12 @@ export default {
         preventAssignment: true,
 				'process.browser': false,
 				'process.env.NODE_ENV': JSON.stringify(mode)
+      }),
+      alias({
+        resolve: ['.js', '.svelte', '.json'], // optional, by default this will just look for .js files or folders
+        entries: [
+          { find: '@components', replacement: path.resolve(__dirname, 'src/components') },
+        ]
       }),
       json(),
 			svelte({

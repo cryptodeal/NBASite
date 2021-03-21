@@ -27,9 +27,9 @@
   import { goto } from '@sapper/app';
   import Modal from 'svelte-simple-modal'
   import dayjs from 'dayjs'
-  import ScopeContent from '../components/profile/ScopeContent.svelte'
-  import ReviseAppContent from '../components/profile/ReviseAppContent.svelte'
-  import {socket, socketWritableStore} from '../components/ws/socketStore'
+  import ScopeContent from '@components/profile/ScopeContent.svelte'
+  import ReviseAppContent from '@components/profile/ReviseAppContent.svelte'
+  import {socket, socketWritableStore} from '@components/ws/socketStore'
   import { getNotificationsContext } from 'svelte-notifications';
   const { addNotification } = getNotificationsContext();
   $: console.log($socketWritableStore)

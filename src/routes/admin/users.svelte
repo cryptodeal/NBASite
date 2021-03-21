@@ -19,8 +19,8 @@
   import Modal from 'svelte-simple-modal'
   import Grid from 'svelte-grid-responsive'
   import VirtualList from '@sveltejs/svelte-virtual-list'
-  import UserListItem from '../../components/admin/users/UserListItem.svelte'
-  import {socketWritableStore} from '../../components/ws/socketStore'
+  import UserListItem from '@components/admin/users/UserListItem.svelte'
+  import {socketWritableStore} from '@components/ws/socketStore'
   $: console.log($socketWritableStore)
   let emailSearch = '';
   let scopeSearch = '';

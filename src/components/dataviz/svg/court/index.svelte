@@ -1,6 +1,6 @@
 <script>
 	import {getContext} from 'svelte'
-	import {config} from './CourtDimensions.js'
+	import {config} from './courtDimensions.js'
   const {width, height} = getContext('LayerCake');
 	//shared scale
 	$: scaleRatio = $width / 15.24

@@ -11,8 +11,8 @@
 </script>
 <script>
     export let categories;
-    import Content from '../../../components/admin/categories/CatContent.svelte'
-    import CatListItem from '../../../components/admin/categories/CatListItem.svelte'
+    import Content from '@components/admin/categories/CatContent.svelte'
+    import CatListItem from '@components/admin/categories/CatListItem.svelte'
     import VirtualList from '@sveltejs/svelte-virtual-list'
     import Modal from 'svelte-simple-modal'
     let nameSearch = '';

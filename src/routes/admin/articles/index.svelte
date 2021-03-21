@@ -12,7 +12,7 @@
 
 <script>
     export let articles;
-    import Content from '../../../components/NewArticleContent.svelte'
+    import Content from '@components/NewArticleContent.svelte'
     import Modal from 'svelte-simple-modal'
 </script>
 

@@ -1,7 +1,5 @@
 <script context="module">
 	export async function preload({ params, query }) {
-		// the `slug` parameter is available because
-		// this file is called [slug].svelte
 		const res = await this.fetch(`http://localhost:8000/api/articles?pg=1`, {
       method: 'GET',
       mode: 'cors',
