@@ -6,6 +6,7 @@ const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const cookie = require('cookie');
 const {verifyToken} = require('./utils/mongoose')
+const connections = {};
 
 
 //TODO - MIDDLEWARE:
@@ -29,7 +30,8 @@ const {adminGetArticleSlug} = require('./api/admin/articles/edit/:slug');
 const {contentPostPic} = require('./api/content/images/picture');
 const {contentPostArticlePic} = require('./api/content/images/article-image');
 const {getTicket} = require('./api/auth/ws/ticket')
-const connections = {};
+const {getDistinctPlayers} = require('./api/data/shots/distinct')
+const {getAllShotsByPlayer} = require('./api/data/shots/:slug')
 
 const corsConfigured = cors({
   origin: 'http://localhost:3000',
@@ -131,6 +133,8 @@ const server = nanoexpress()
   server.get('/api/admin/articles/edit/:slug', adminGetArticleSlug)
   server.post('/api/content/images/picture', contentPostPic)
   server.get('/api/auth/ws', getTicket)
+  server.get('/api/data/shots/distinct/players', getDistinctPlayers)
+  server.get('/api/data/shots/:slug', getAllShotsByPlayer)
 
   //TODO ROUTES:
 

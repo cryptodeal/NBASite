@@ -47,7 +47,7 @@
 </style>
 <Notifications>
   <div class='logo-container'>
-    <Image src='title.png' alt="Tankie News Network logo"/>
+    <img src='title.png' alt="Tankie News Network logo"/>
   </div>
   <Nav {segment} />
 

@@ -45,7 +45,7 @@
 			.hexbin()
 			.size([$width, $height])
       .radius(hexbinConfig.hexagonRadius)
-	$: allHexbins = hexbin($data.map(d => [$xScale($x(d)),$yScale($y(d)), d.z]))
+	$: allHexbins = hexbin($data.map(d => [$xScale($x(d)),$yScale($y(d)), d.madeShot]))
 	$: radiusScale = calcRadiusScale(allHexbins)
 
 </script>

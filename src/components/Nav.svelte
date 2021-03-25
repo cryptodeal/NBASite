@@ -52,6 +52,7 @@
 	<ul>
 		<li><a aria-current='{segment === undefined ? "page" : undefined}' href='.'>home</a></li>
 		<li><a aria-current='{segment === "articles" ? "page" : undefined}' sapper:prefetch href='articles'>articles</a></li>
+    <li><a aria-current='{segment === "data/shots" ? "page" : undefined}' sapper:prefetch href='data/shots'>nba shot data</a></li>
     	{#if $session.authenticated}
       		<li><a aria-current='{segment === "profile" ? "page" : undefined}' sapper:prefetch href='profile'>profile</a></li>
       	{#if $session.profile.scope.includes('owner')}
